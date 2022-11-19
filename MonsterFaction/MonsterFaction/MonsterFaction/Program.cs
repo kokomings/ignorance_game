@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 
 namespace MonsterFaction
 {
@@ -11,20 +11,35 @@ namespace MonsterFaction
 
             while (true)
             {
-                GameLoop(game);
+                game.GameLoop();
             }
-        }
-
-        private static async void GameLoop(Game game)
-        {
-            game.Update();
-            // To-do: Tester와 형식을 맞추기 위해 이렇게 했고 나중에 변경해야 함.
-            await Task.Delay(8);
         }
     }
 
     public class Game
     {
+        private readonly TimeSpan MS_PER_UPDATE = TimeSpan.FromMilliseconds(8.0);
+        private DateTime previousGameTime = DateTime.Now;
+        private TimeSpan lag = TimeSpan.Zero;
+
+        public void GameLoop()
+        {
+            var currentGameTime = DateTime.Now;
+            var elapsed = currentGameTime - previousGameTime;
+            previousGameTime = currentGameTime;
+            lag += elapsed;
+
+            // processInput();
+
+            while (lag >= MS_PER_UPDATE)
+            {
+                this.Update();
+                lag -= MS_PER_UPDATE;
+            }
+
+            // render();
+        }
+
         public void Start()
         {
             Logger.Log.Information("Hello World!");
