@@ -18,6 +18,8 @@ namespace GameTester
         private void TestWindow_Load(object sender, EventArgs e)
         {
             this.Paint += new PaintEventHandler(this.TestWindow_Paint);
+            this.KeyDown += new KeyEventHandler(this.TestWindow_KeyDown);
+            this.KeyUp += new KeyEventHandler(this.TestWindow_KeyUp);
             GameLoop();
         }
 
@@ -35,9 +37,28 @@ namespace GameTester
 
         private void TestWindow_Paint(object sender, PaintEventArgs e)
         {
-            foreach (var testObject in game.GameWorld.GetTestObjects())
+            foreach (var testObject in game.GameWorld.GetDrawables())
             {
                 GameObjectDrawer.DrawGameObject(e, testObject);
+            }
+        }
+
+        private void TestWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.W:
+                    break;
+
+            }
+        }
+        private void TestWindow_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.W:
+                    break;
+
             }
         }
 

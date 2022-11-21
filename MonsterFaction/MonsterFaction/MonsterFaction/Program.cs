@@ -1,4 +1,5 @@
 ﻿using MonsterFaction.GameWorld;
+using MonsterFaction.SingleUserControl;
 using System;
 
 namespace MonsterFaction
@@ -23,8 +24,14 @@ namespace MonsterFaction
         private DateTime previousGameTime = DateTime.Now;
         private TimeSpan lag = TimeSpan.Zero;
 
+        private readonly PlayerController playerController = new();
         private readonly World gameWorld = new();
         public IDrawableWorld GameWorld => gameWorld;
+
+        public Game()
+        {
+            playerController.PlayerMovement = gameWorld.MakePlayer().PlayerMovement;
+        }
 
         public void GameLoop()
         {
@@ -52,7 +59,7 @@ namespace MonsterFaction
         public void Update()
         {
             Logger.Log.Information("Hi!");
+            gameWorld.Update();
         }
-
     }
 }

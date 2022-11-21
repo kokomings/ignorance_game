@@ -29,9 +29,28 @@ namespace MonsterFaction.GameWorld
                 ));
         }
 
-        public IEnumerable<SampleObject> GetTestObjects()
+        public SampleObject MakePlayer()
+        {
+            var player = new SampleObject(
+                        new SphereShape(new Vector3(60, 60, 60), new Vector3(30, 30, 30)),
+                        new Vector3(50, 50, 50),
+                        Vector3.Zero
+                    );
+            testObjects.Add(player);
+            return player;
+        }
+
+        public IEnumerable<IDrawable> GetDrawables()
         {
             return testObjects;
+        }
+
+        public void Update()
+        {
+            foreach (var testObject in testObjects)
+            {
+                testObject.Update();
+            }
         }
     }
 }

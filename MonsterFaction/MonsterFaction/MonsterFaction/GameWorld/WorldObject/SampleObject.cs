@@ -3,21 +3,24 @@ using System.Numerics;
 
 namespace MonsterFaction.GameWorld.WorldObject
 {
-    public class SampleObject : IDrawable
+    public class SampleObject : IUpdatable, IDrawable
     {
         private readonly IShape shape;
-        private Vector3 position;
-        private Vector3 direction;
+        private readonly Movement movement;
 
         public IShape Shape => shape;
-        public Vector3 Position => position;
-        public Vector3 Direction => direction;
+        public IMovement Movement => movement;
+        public IMovementForPlayer PlayerMovement => movement;
 
         public SampleObject(IShape shape, Vector3 position, Vector3 direction)
         {
             this.shape = shape;
-            this.position = position;
-            this.direction = direction;
+            this.movement = new Movement(position, direction);
+        }
+
+        public void Update()
+        {
+            Movement.Move();
         }
     }
 }

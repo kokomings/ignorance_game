@@ -5,6 +5,6 @@ namespace MonsterFaction.GameWorld
 {
     public interface IDrawableWorld
     {
-        public IEnumerable<SampleObject> GetTestObjects();
+        public IEnumerable<IDrawable> GetDrawables();
     }
 }
