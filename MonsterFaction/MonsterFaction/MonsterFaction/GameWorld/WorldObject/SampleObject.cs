@@ -12,7 +12,7 @@ namespace MonsterFaction.GameWorld.WorldObject
         public IMovement Movement => movement;
         public IMovementForPlayer PlayerMovement => movement;
 
-        public SampleObject(IShape shape, Vector3 position, Vector3 direction)
+        public SampleObject(IShape shape, Vector3 position, Vector2 direction)
         {
             this.shape = shape;
             this.movement = new Movement(position, direction);

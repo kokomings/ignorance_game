@@ -6,17 +6,17 @@ namespace MonsterFaction.GameWorld.WorldObject
     public sealed class Movement : IMovement, IMovementForPlayer
     {
         private Vector3 position;
-        private Vector3 direction;
+        private Vector2 direction;
         private Vector3 velocity;
         public Vector3 Position => position;
-        public Vector3 Direction
+        public Vector2 Direction
         {
             get { return direction; }
             set { direction = value; }
         }
         public Vector3 Velocity { set => velocity = value; }
 
-        public Movement(Vector3 position, Vector3 direction)
+        public Movement(Vector3 position, Vector2 direction)
         {
             this.position = position;
             this.direction = direction;

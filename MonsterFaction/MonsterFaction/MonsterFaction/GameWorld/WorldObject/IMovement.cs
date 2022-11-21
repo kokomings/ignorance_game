@@ -5,7 +5,7 @@ namespace MonsterFaction.GameWorld.WorldObject
     public interface IMovement
     {
         public Vector3 Position { get; }
-        public Vector3 Direction { get; }
+        public Vector2 Direction { get; }
         public void Move();
     }
 }

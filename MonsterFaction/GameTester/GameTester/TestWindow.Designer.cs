@@ -1,4 +1,7 @@
 ﻿
+using GameTester.GUI;
+using System.Windows.Forms;
+
 namespace GameTester
 {
     partial class TestWindow
@@ -29,7 +32,8 @@ namespace GameTester
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new TextBox();
+            this.panel1 = new GamePanel();
             this.SuspendLayout();
             // 
             // textBox1
@@ -37,9 +41,16 @@ namespace GameTester
             this.textBox1.Location = new System.Drawing.Point(12, 628);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(1598, 267);
             this.textBox1.TabIndex = 0;
-            this.textBox1.ReadOnly = false;
+            // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1621, 915);
+            this.panel1.TabIndex = 1;
             // 
             // TestWindow
             // 
@@ -47,16 +58,19 @@ namespace GameTester
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1622, 907);
             this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.panel1);
             this.Name = "TestWindow";
             this.Text = "MonsterFaction";
             this.Load += new System.EventHandler(this.TestWindow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
+        private GamePanel panel1;
+        private TextBox textBox1;
     }
 }
 

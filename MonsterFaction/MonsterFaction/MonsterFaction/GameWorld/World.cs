@@ -18,23 +18,23 @@ namespace MonsterFaction.GameWorld
                     new SampleObject(
                         new SphereShape(new Vector3(40, 100, 20), new Vector3(20, 50, 10)),
                         Vector3.Zero,
-                        Vector3.Zero
+                        Vector2.Zero
                     ));
 
             testObjects.Add(
                 new SampleObject(
                     new BoxShape(new Vector3(30, 30, 30), new Vector3(15f, 15f, 15f)),
                     new Vector3(150, 80, -60),
-                    Vector3.Zero
+                    Vector2.Zero
                 ));
         }
 
         public SampleObject MakePlayer()
         {
             var player = new SampleObject(
-                        new SphereShape(new Vector3(60, 60, 60), new Vector3(30, 30, 30)),
-                        new Vector3(50, 50, 50),
-                        Vector3.Zero
+                        new SphereShape(new Vector3(30, 30, 30), new Vector3(15, 15, 15)),
+                        new Vector3(800, 0, -400),
+                        Vector2.Zero
                     );
             testObjects.Add(player);
             return player;

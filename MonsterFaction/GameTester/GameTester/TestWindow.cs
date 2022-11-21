@@ -6,20 +6,21 @@ using System.Windows.Forms;
 
 namespace GameTester
 {
-    public partial class TestWindow : Form
+    public partial class TestWindow : Form, IMessageFilter
     {
         private readonly Game game = new();
 
         public TestWindow()
         {
             InitializeComponent();
+            Application.AddMessageFilter(this);
+            this.FormClosed += (s, e) => Application.RemoveMessageFilter(this);
         }
 
         private void TestWindow_Load(object sender, EventArgs e)
         {
-            this.Paint += new PaintEventHandler(this.TestWindow_Paint);
-            this.KeyDown += new KeyEventHandler(this.TestWindow_KeyDown);
-            this.KeyUp += new KeyEventHandler(this.TestWindow_KeyUp);
+            this.panel1.Paint += new PaintEventHandler(this.TestWindow_Paint);
+
             GameLoop();
         }
 
@@ -30,6 +31,7 @@ namespace GameTester
             {
                 game.Update();
                 FetchAllLogs();
+                this.panel1.Refresh();
 
                 await Task.Delay(8);
             }
@@ -40,25 +42,6 @@ namespace GameTester
             foreach (var testObject in game.GameWorld.GetDrawables())
             {
                 GameObjectDrawer.DrawGameObject(e, testObject);
-            }
-        }
-
-        private void TestWindow_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.W:
-                    break;
-
-            }
-        }
-        private void TestWindow_KeyUp(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.W:
-                    break;
-
             }
         }
 
@@ -78,6 +61,16 @@ namespace GameTester
         {
             this.textBox1.AppendText($"{DateTime.Now}[Log] {log.Text}");
             this.textBox1.AppendText(Environment.NewLine);
+        }
+
+        public bool PreFilterMessage(ref Message m)
+        {
+            if (m.Msg == KeyBindings.WM_KEYDOWN || m.Msg == KeyBindings.WM_KEYUP)
+            {
+                KeyBindings.KeyEvent(ref m, (Keys)m.WParam.ToInt32());
+            }
+
+            return false;
         }
     }
 }
