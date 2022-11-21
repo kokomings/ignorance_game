@@ -1,4 +1,5 @@
-﻿using MonsterFaction;
+﻿using GameTester.GameWorldDrawer;
+using MonsterFaction;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,6 +17,7 @@ namespace GameTester
 
         private void TestWindow_Load(object sender, EventArgs e)
         {
+            this.Paint += new PaintEventHandler(this.TestWindow_Paint);
             GameLoop();
         }
 
@@ -25,16 +27,18 @@ namespace GameTester
             while (true)
             {
                 game.Update();
-                Render();
+                FetchAllLogs();
 
                 await Task.Delay(8);
             }
         }
 
-        private void Render()
+        private void TestWindow_Paint(object sender, PaintEventArgs e)
         {
-            FetchAllLogs();
-
+            foreach (var testObject in game.GameWorld.GetTestObjects())
+            {
+                GameObjectDrawer.DrawGameObject(e, testObject);
+            }
         }
 
         private void FetchAllLogs()

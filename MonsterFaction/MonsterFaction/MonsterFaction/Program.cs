@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MonsterFaction.GameWorld;
+using System;
 
 namespace MonsterFaction
 {
@@ -21,6 +22,9 @@ namespace MonsterFaction
         private readonly TimeSpan MS_PER_UPDATE = TimeSpan.FromMilliseconds(8.0);
         private DateTime previousGameTime = DateTime.Now;
         private TimeSpan lag = TimeSpan.Zero;
+
+        private readonly World gameWorld = new();
+        public IDrawableWorld GameWorld => gameWorld;
 
         public void GameLoop()
         {
