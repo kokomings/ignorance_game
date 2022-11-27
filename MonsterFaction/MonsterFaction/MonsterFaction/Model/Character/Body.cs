@@ -87,6 +87,7 @@ namespace MonsterFaction.Model
     // 밖으로 뺄 수도 있음.
     public readonly struct Buff
     {
+        // int 말고 double 로 현실 시간으로 표현하는 방법도 있을 듯.
         public readonly int Duration { get; }
         public readonly Stat Stat { get; }
 
