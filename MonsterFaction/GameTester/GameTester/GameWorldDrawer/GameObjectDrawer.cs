@@ -41,8 +41,8 @@ namespace GameTester.GameWorldDrawer
             // 우측으로 갈수록 x가 증가하고 위로 갈수록 z가 증가한다.
             rect.Width = gameObject.Shape.Size.X;
             rect.Height = gameObject.Shape.Size.Z;
-            rect.X = gameObject.Position.X - gameObject.Shape.Center.X;
-            rect.Y = -gameObject.Position.Z - gameObject.Shape.Center.Z;
+            rect.X = gameObject.Movement.Position.X - gameObject.Shape.Center.X;
+            rect.Y = -gameObject.Movement.Position.Z - gameObject.Shape.Center.Z;
         }
     }
 }

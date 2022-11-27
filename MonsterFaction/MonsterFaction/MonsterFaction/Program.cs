@@ -26,14 +26,18 @@ namespace MonsterFaction
         private readonly World gameWorld = new();
         public IDrawableWorld GameWorld => gameWorld;
 
+        public Game()
+        {
+            var newPlayer = gameWorld.MakePlayer();
+            InputListener.Input.SetPlayerMovement(newPlayer.PlayerMovement);
+        }
+
         public void GameLoop()
         {
             var currentGameTime = DateTime.Now;
             var elapsed = currentGameTime - previousGameTime;
             previousGameTime = currentGameTime;
             lag += elapsed;
-
-            // processInput();
 
             while (lag >= MS_PER_UPDATE)
             {
@@ -51,8 +55,7 @@ namespace MonsterFaction
 
         public void Update()
         {
-            Logger.Log.Information("Hi!");
+            gameWorld.Update();
         }
-
     }
 }
