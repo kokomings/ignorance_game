@@ -9,7 +9,7 @@ namespace MonsterFaction.Repository
 {
     public class TempStatSkillRepository: StatSkillRepository
     {
-        protected override void loadStatSkill()
+        protected override void initialize()
         {
             this.statSkillList = new List<StatSkill>();
             statSkillList.Add(new StatSkill("Sharpness", Rank.D, new Stat { Attack = 10 }));

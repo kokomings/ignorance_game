@@ -12,10 +12,10 @@ namespace MonsterFaction.Repository
         protected List<StatSkill> statSkillList;
         public StatSkillRepository()
         {
-            loadStatSkill();
+            initialize();
         }
 
-        protected abstract void loadStatSkill();
+        protected abstract void initialize();
 
         // TO-DO: 랜덤으로 변경.
         public StatSkill GetRandomSkill() { return statSkillList.First(); }
