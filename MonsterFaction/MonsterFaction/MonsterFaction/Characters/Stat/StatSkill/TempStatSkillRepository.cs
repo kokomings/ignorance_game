@@ -1,17 +1,12 @@
-﻿using MonsterFaction.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace MonsterFaction.Repository
+namespace MonsterFaction.Characters
 {
-    public class TempStatSkillRepository: StatSkillRepository
+    public class TempStatSkillRepository : StatSkillRepository
     {
         protected override void initialize()
         {
-            this.statSkillList = new List<StatSkill>();
+            statSkillList = new List<StatSkill>();
             statSkillList.Add(new StatSkill("Sharpness", Rank.D, new Stat { Attack = 10 }));
             statSkillList.Add(new StatSkill("Sharpness", Rank.C, new Stat { Attack = 20 }));
             statSkillList.Add(new StatSkill("Hard Skin", Rank.D, new Stat { Defense = 10 }));

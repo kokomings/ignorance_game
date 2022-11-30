@@ -1,12 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MonsterFaction.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MonsterFaction.Model.Tests
+namespace MonsterFaction.Characters.Tests
 {
     [TestClass()]
     public class BodyTests

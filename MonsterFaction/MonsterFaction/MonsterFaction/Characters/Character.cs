@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MonsterFaction.Model
+namespace MonsterFaction.Characters
 {
     public class Character
     {
@@ -9,12 +9,12 @@ namespace MonsterFaction.Model
 
         public Character(Stat stat)
         {
-            this.BaseStat = stat;
+            BaseStat = stat;
         }
 
         public void AddSkill(StatSkill skill)
         {
-            this.statSkills.Add(skill);
+            statSkills.Add(skill);
         }
 
         public Stat GetTotalStat()
