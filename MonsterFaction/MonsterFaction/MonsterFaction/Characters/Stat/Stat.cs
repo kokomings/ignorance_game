@@ -1,4 +1,4 @@
-namespace MonsterFaction.Model
+namespace MonsterFaction.Characters
 {
     public readonly struct Stat
     {

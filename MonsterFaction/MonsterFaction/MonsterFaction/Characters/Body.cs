@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 
-namespace MonsterFaction.Model
+namespace MonsterFaction.Characters
 {
     public class Body
     {
@@ -14,26 +12,26 @@ namespace MonsterFaction.Model
 
         public int CurrentHP { get => currentHP; }
         public int MaxHP { get => baseHP + buffHP; }
-        public Boolean IsDead { get => currentHP <= 0; }
+        public bool IsDead { get => currentHP <= 0; }
 
         private Stat buffStat;
         public Stat BuffStat { get => buffStat; }
 
         public Body(int maxHP)
         {
-            this.baseHP = maxHP;
-            this.currentHP = maxHP;
+            baseHP = maxHP;
+            currentHP = maxHP;
             sync();
         }
 
         public void SetBaseMaxHP(int newHP)
         {
-            int gap = newHP - this.baseHP;
+            int gap = newHP - baseHP;
 
-            this.baseHP = newHP;
+            baseHP = newHP;
 
             if (gap > 0 && !IsDead)
-                this.currentHP += gap;
+                currentHP += gap;
             sync();
         }
         public void AddBuff(int duration, Stat stat)
@@ -57,9 +55,9 @@ namespace MonsterFaction.Model
 
         public void Damaged(int damage)
         {
-            this.currentHP -= damage;
-            if (this.currentHP < 0)
-                this.currentHP = 0;
+            currentHP -= damage;
+            if (currentHP < 0)
+                currentHP = 0;
         }
         private void sync()
         {
@@ -68,20 +66,20 @@ namespace MonsterFaction.Model
             {
                 sum += buff.Stat;
             }
-            this.buffStat = sum;
+            buffStat = sum;
             setBuffMaxHP(sum.HP);
         }
         private void setBuffMaxHP(int newHP)
         {
-            int gap = newHP - this.buffHP;
+            int gap = newHP - buffHP;
 
-            this.buffHP = newHP;
+            buffHP = newHP;
 
             if (gap > 0 && !IsDead)
-                this.currentHP += gap;
+                currentHP += gap;
 
-            if (this.currentHP > this.baseHP + this.buffHP)
-                this.currentHP = baseHP;
+            if (currentHP > baseHP + buffHP)
+                currentHP = baseHP;
         }
     }
     // 밖으로 뺄 수도 있음.

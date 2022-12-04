@@ -1,18 +1,13 @@
-﻿using MonsterFaction.Model;
-using MonsterFaction.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace MonsterFaction.Service
+namespace MonsterFaction.Characters
 {
     public class StatSkillService
     {
         private StatSkillRepository repository = new TempStatSkillRepository();
-        
-        public StatSkillService(StatSkillRepository repository) {
+
+        public StatSkillService(StatSkillRepository repository)
+        {
             this.repository = repository;
         }
 
