@@ -3,7 +3,7 @@
 namespace MonsterFaction.Characters.Tests
 {
     [TestClass()]
-    public class CharacterTests
+    public class CharacterStatusTests
     {
         [TestMethod()]
         public void GetTotalStatTest()
@@ -12,7 +12,7 @@ namespace MonsterFaction.Characters.Tests
             var stat2 = new Stat { Defense = 22 };
             var stat3 = new Stat { Attack = 7, Defense = 7 };
 
-            var character = new Character(stat1);
+            var character = new CharacterStatus(stat1);
             character.AddSkill(new StatSkill { Stat = stat2 });
             character.AddSkill(new StatSkill { Stat = stat3 });
 
