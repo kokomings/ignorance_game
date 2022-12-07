@@ -2,12 +2,12 @@ using System.Collections.Generic;
 
 namespace MonsterFaction.Characters
 {
-    public class Character
+    public class CharacterStatus
     {
         public Stat BaseStat { get; set; } = new Stat();
         private List<StatSkill> statSkills = new List<StatSkill>();
 
-        public Character(Stat stat)
+        public CharacterStatus(Stat stat)
         {
             BaseStat = stat;
         }

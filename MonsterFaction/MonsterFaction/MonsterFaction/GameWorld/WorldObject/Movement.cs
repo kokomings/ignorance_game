@@ -22,9 +22,9 @@ namespace MonsterFaction.GameWorld.WorldObject
             this.direction = direction;
         }
 
-        public void Move()
+        public void Move(float speed = 1.0f)
         {
-            position = position + velocity;
+            position = position + velocity * new Vector3(speed, speed, speed);
         }
     }
 }
