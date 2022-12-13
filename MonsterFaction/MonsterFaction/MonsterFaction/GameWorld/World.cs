@@ -10,28 +10,28 @@ namespace MonsterFaction.GameWorld
         private readonly Vector3 WorldSize = new(1000, 200, 1000);
 
         // 게임 오브젝트 그리기 테스트용
-        private readonly List<Player> testObjects = new();
+        private readonly List<Human> testObjects = new();
 
         public World()
         {
             testObjects.Add(
-                    new Player(
+                    new Human(
                         new SphereShape(new Vector3(40, 100, 20), new Vector3(20, 50, 10)),
                         Vector3.Zero,
                         Vector2.Zero
                     ));
 
             testObjects.Add(
-                new Player(
+                new Human(
                     new BoxShape(new Vector3(30, 30, 30), new Vector3(15f, 15f, 15f)),
                     new Vector3(150, 80, -60),
                     Vector2.Zero
                 ));
         }
 
-        public Player MakePlayer()
+        public Human MakePlayer()
         {
-            var player = new Player(
+            var player = new Human(
                         new SphereShape(new Vector3(30, 30, 30), new Vector3(15, 15, 15)),
                         new Vector3(800, 0, -400),
                         Vector2.Zero
