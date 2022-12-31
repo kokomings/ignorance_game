@@ -3,10 +3,10 @@ using System.Linq;
 
 namespace MonsterFaction.Characters
 {
-    public abstract class StatSkillRepository
+    public abstract class RandomStatSkillProvider
     {
         protected List<StatSkill> statSkillList;
-        public StatSkillRepository()
+        public RandomStatSkillProvider()
         {
             initialize();
         }
