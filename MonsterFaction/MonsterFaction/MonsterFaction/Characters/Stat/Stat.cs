@@ -16,5 +16,15 @@ namespace MonsterFaction.Characters
                 MoveSpeed = left.MoveSpeed + right.MoveSpeed,
             };
         }
+        public static Stat operator *(Stat origin, int factor)
+        {
+            return new Stat
+            {
+                HP = origin.HP * factor,
+                Attack = origin.Attack * factor,
+                Defense = origin.Defense * factor,
+                MoveSpeed = origin.MoveSpeed * factor
+            };
+        }
     }
 }
