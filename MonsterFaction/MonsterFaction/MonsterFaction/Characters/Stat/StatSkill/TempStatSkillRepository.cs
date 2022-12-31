@@ -2,7 +2,7 @@
 
 namespace MonsterFaction.Characters
 {
-    public class TempStatSkillRepository : StatSkillRepository
+    public class TempStatSkillRepository : RandomStatSkillProvider
     {
         protected override void initialize()
         {
