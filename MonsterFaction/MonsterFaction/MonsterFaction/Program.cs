@@ -1,4 +1,5 @@
 ﻿using MonsterFaction.GameWorld;
+using MonsterFaction.SystemEvents;
 using System;
 
 namespace MonsterFaction
@@ -24,6 +25,7 @@ namespace MonsterFaction
         private TimeSpan lag = TimeSpan.Zero;
 
         private readonly World gameWorld = new();
+        private readonly EventSubscriber<CreateEvent> eventSubscriber = new (EventType.CREATE);
         public IDrawableWorld GameWorld => gameWorld;
 
         public Game()
@@ -47,6 +49,13 @@ namespace MonsterFaction
 
             // render();
         }
+        private void printEvent()
+        {
+            foreach (CreateEvent systemEvent in eventSubscriber.FetchAll())
+            {
+                Logger.Log.Information($"[CreateEvent]. ObjectId: {systemEvent.ObjectId}");
+            }
+        }
 
         public void Start()
         {
@@ -56,6 +65,7 @@ namespace MonsterFaction
         public void Update()
         {
             gameWorld.Update();
+            printEvent();
         }
     }
 }

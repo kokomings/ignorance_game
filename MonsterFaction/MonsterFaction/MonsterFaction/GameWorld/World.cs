@@ -1,5 +1,6 @@
 ﻿using MonsterFaction.GameWorld.WorldObject;
 using MonsterFaction.GameWorld.WorldObject.Shape;
+using MonsterFaction.SystemEvents;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -37,6 +38,7 @@ namespace MonsterFaction.GameWorld
                         Vector2.Zero
                     );
             testObjects.Add(player);
+            EventBroker.PublishEvent(new CreateEvent { ObjectId = 1});
             return player;
         }
 
