@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace MonsterFaction.GameWorld.WorldObject
 {
-    public class Human : Character, IUpdatable, IDrawable
+    public class SimpleObject : IUpdatable, IDrawable
     {
         private readonly IShape shape;
         private readonly Movement movement;
@@ -13,7 +13,7 @@ namespace MonsterFaction.GameWorld.WorldObject
         public IMovement Movement => movement;
         public IMovementForPlayer PlayerMovement => movement;
 
-        public Human(IShape shape, Vector3 position, Vector2 direction): base(new Stat { HP = 100, MoveSpeed = 1.0f })
+        public SimpleObject(IShape shape, Vector3 position, Vector2 direction)
         {
             this.shape = shape;
             this.movement = new Movement(position, direction);
@@ -21,7 +21,7 @@ namespace MonsterFaction.GameWorld.WorldObject
 
         public void Update()
         {
-            Movement.Move(characterStatus.GetTotalStat().MoveSpeed);
+            Movement.Move();
         }
     }
 }
