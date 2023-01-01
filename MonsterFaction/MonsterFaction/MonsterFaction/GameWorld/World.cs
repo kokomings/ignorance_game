@@ -13,6 +13,8 @@ namespace MonsterFaction.GameWorld
         // 게임 오브젝트 그리기 테스트용
         private readonly List<SimpleObject> testObjects = new();
 
+        private readonly List<IUpdatable> managers = new List<IUpdatable>();
+
         public World()
         {
             testObjects.Add(
@@ -28,6 +30,7 @@ namespace MonsterFaction.GameWorld
                     new Vector3(150, 80, -60),
                     Vector2.Zero
                 ));
+            managers.Add(new ObjectCollisionManager());
         }
 
         public SimpleObject MakePlayer()
@@ -52,6 +55,10 @@ namespace MonsterFaction.GameWorld
             foreach (var testObject in testObjects)
             {
                 testObject.Update();
+            }
+            foreach (var manager in managers)
+            {
+                manager.Update();
             }
         }
     }

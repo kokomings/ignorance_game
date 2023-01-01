@@ -14,7 +14,7 @@ namespace MonsterFaction.SystemEvents.Tests
         [TestMethod()]
         public void PublishEventTest()
         {
-            var subsciber = new EventSubscriber<CreateEvent>(EventType.CREATE);
+            var subsciber = new EventSubscriber<CreateEvent>(EventType.OBJECT_CREATE);
             var testEvent1 = new CreateEvent { ObjectId = 10 };
             var testEvent2 = new CreateEvent { ObjectId = 20 };
             EventBroker.PublishEvent(testEvent1);
@@ -28,12 +28,12 @@ namespace MonsterFaction.SystemEvents.Tests
         [TestMethod()]
         public void MultiSubscriberTest()
         {
-            var subsciber1 = new EventSubscriber<CreateEvent>(EventType.CREATE);
+            var subsciber1 = new EventSubscriber<CreateEvent>(EventType.OBJECT_CREATE);
             var testEvent1 = new CreateEvent { ObjectId = 10 };
             EventBroker.PublishEvent(testEvent1);
 
             var testEvent2 = new CreateEvent { ObjectId = 20 };
-            var subsciber2 = new EventSubscriber<CreateEvent>(EventType.CREATE);
+            var subsciber2 = new EventSubscriber<CreateEvent>(EventType.OBJECT_CREATE);
             EventBroker.PublishEvent(testEvent2);
 
             Assert.IsTrue(

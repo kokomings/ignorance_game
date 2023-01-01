@@ -25,7 +25,7 @@ namespace MonsterFaction
         private TimeSpan lag = TimeSpan.Zero;
 
         private readonly World gameWorld = new();
-        private readonly EventSubscriber<CreateEvent> eventSubscriber = new (EventType.CREATE);
+        private readonly EventSubscriber<CreateEvent> eventSubscriber = new (EventType.OBJECT_CREATE);
         public IDrawableWorld GameWorld => gameWorld;
 
         public Game()
