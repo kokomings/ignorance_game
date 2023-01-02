@@ -53,7 +53,7 @@ namespace MonsterFaction
         {
             foreach (CreateEvent systemEvent in eventSubscriber.FetchAll())
             {
-                Logger.Log.Information($"[CreateEvent]. ObjectId: {systemEvent.ObjectId}");
+                Logger.Log.Information($"[CreateEvent]. ID: {systemEvent.ObjectId}");
             }
         }
 
