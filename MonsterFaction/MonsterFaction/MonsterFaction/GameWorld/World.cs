@@ -1,5 +1,6 @@
 ﻿using MonsterFaction.GameWorld.WorldObject;
 using MonsterFaction.GameWorld.WorldObject.Shape;
+using MonsterFaction.GameWorld.WorldObject.VectorUnit;
 using MonsterFaction.SystemEvents;
 using System.Collections.Generic;
 using System.Numerics;
@@ -19,29 +20,31 @@ namespace MonsterFaction.GameWorld
         {
             testObjects.Add(
                     new SimpleObject(
-                        new SphereShape(new Vector3(40, 100, 20), new Vector3(20, 50, 10)),
-                        Vector3.Zero,
-                        Vector2.Zero
+                        new CircleShape(new Size(40, 40), new Center(20, 10)),
+                        new Center(0, 0),
+                        new Direction(0, 0)
                     ));
 
             testObjects.Add(
                 new SimpleObject(
-                    new BoxShape(new Vector3(30, 30, 30), new Vector3(15f, 15f, 15f)),
-                    new Vector3(150, 80, -60),
-                    Vector2.Zero
+                    new SquareShape (new Size(30, 30), new Center(15f, 15f)),               
+                    new Center(150, 80),
+                    new Direction(0, 0)
                 ));
             managers.Add(new ObjectCollisionManager());
         }
 
         public SimpleObject MakePlayer()
         {
+            // Center 를 분리 할 수 없을까?
+            var playerCenter = new Center(200, 200);
             var player = new SimpleObject(
-                        new SphereShape(new Vector3(30, 30, 30), new Vector3(15, 15, 15)),
-                        new Vector3(800, 0, -400),
-                        Vector2.Zero
+                        new CircleShape (new Size(30, 30), playerCenter),
+                        playerCenter,
+                        new Direction(0, 0)
                     );
             testObjects.Add(player);
-            EventBroker.PublishEvent(new CreateEvent { ObjectId = 1});
+            EventBroker.PublishEvent(new CreateEvent(1, player.Shape));
             return player;
         }
 

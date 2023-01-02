@@ -15,17 +15,17 @@ namespace GameTester.GameWorldDrawer
         {
             DecideRect(gameObject);
 
-            if (gameObject.Shape is BoxShape)
+            if (gameObject.Shape is SquareShape)
             {
                 DrawRect(e);
             }
-            else if (gameObject.Shape is SphereShape)
+            else if (gameObject.Shape is CircleShape)
             {
-                DrawSphere(e);
+                DrawCircle(e);
             }
         }
 
-        private static void DrawSphere(PaintEventArgs e)
+        private static void DrawCircle(PaintEventArgs e)
         {
             e.Graphics.FillEllipse(blueBrush, rect);
         }
@@ -37,12 +37,12 @@ namespace GameTester.GameWorldDrawer
 
         private static void DecideRect(IDrawable gameObject)
         {
-            // 유니티의 왼손좌표계 이용, 위에서 내려다봤을 때
-            // 우측으로 갈수록 x가 증가하고 위로 갈수록 z가 증가한다.
-            rect.Width = gameObject.Shape.Size.X;
-            rect.Height = gameObject.Shape.Size.Z;
-            rect.X = gameObject.Movement.Position.X - gameObject.Shape.Center.X;
-            rect.Y = -gameObject.Movement.Position.Z - gameObject.Shape.Center.Z;
+            // 우측으로 갈수록 x가 증가하고 위로 갈수록 y가 증가한다.
+            // TODO: rect 를 double 로 쓰게하자.
+            rect.Width = (float)gameObject.Shape.Size.Width;
+            rect.Height = (float)gameObject.Shape.Size.Height;
+            rect.X = (float)gameObject.Movement.Center.X;
+            rect.Y = -(float)gameObject.Movement.Center.Y + 330; // 0,0 좌표를 로그칸 바로 위로 맞추느라 조정.
         }
     }
 }

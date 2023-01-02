@@ -1,6 +1,7 @@
 ﻿using MonsterFaction.Characters;
 using MonsterFaction.GameWorld.WorldObject.Shape;
 using System.Numerics;
+using MonsterFaction.GameWorld.WorldObject.VectorUnit;
 
 namespace MonsterFaction.GameWorld.WorldObject
 {
@@ -13,10 +14,10 @@ namespace MonsterFaction.GameWorld.WorldObject
         public IMovement Movement => movement;
         public IMovementForPlayer PlayerMovement => movement;
 
-        public SimpleObject(IShape shape, Vector3 position, Vector2 direction)
+        public SimpleObject(IShape shape, Center center, Direction direction)
         {
             this.shape = shape;
-            this.movement = new Movement(position, direction);
+            this.movement = new Movement(center, direction);
         }
 
         public void Update()

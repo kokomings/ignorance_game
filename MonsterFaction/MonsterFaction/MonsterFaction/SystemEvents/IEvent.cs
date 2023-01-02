@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using MonsterFaction.GameWorld.WorldObject.VectorUnit;
+using MonsterFaction.GameWorld.WorldObject.Shape;
 
 namespace MonsterFaction.SystemEvents
 {
@@ -11,18 +12,20 @@ namespace MonsterFaction.SystemEvents
     {
         public readonly EventType EventType { get; init; }
         public readonly int ObjectId { get; init; }
-        public CreateEvent(int ObjectId)
+        public readonly IShape Shape { get; init; }
+        public CreateEvent(int ObjectId, IShape shape)
         {
             this.EventType = EventType.OBJECT_CREATE;
             this.ObjectId = ObjectId;
+            this.Shape = shape;
         }
     }
     public readonly struct MoveEvent : IEvent
     {
         public readonly EventType EventType { get; init; }
         public readonly int ObjectId { get; init; }
-        public readonly Vector2 NewPosition { get; init; }
-        public MoveEvent(int ObjectId, Vector2 newPosition)
+        public readonly Center NewPosition { get; init; }
+        public MoveEvent(int ObjectId, Center newPosition)
         {
             this.EventType = EventType.OBJECT_MOVE;
             this.ObjectId = ObjectId;
