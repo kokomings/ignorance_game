@@ -1,4 +1,5 @@
-﻿using MonsterFaction.GameWorld.WorldObject;
+﻿using MonsterFaction.Characters.Monster;
+using MonsterFaction.GameWorld.WorldObject;
 using MonsterFaction.GameWorld.WorldObject.DomainObject;
 using MonsterFaction.GameWorld.WorldObject.Shape;
 using MonsterFaction.GameWorld.WorldObject.VectorUnit;
@@ -22,17 +23,11 @@ namespace MonsterFaction.GameWorld
 
         public World()
         {
-            drawables.Add(
-                    new SimpleObject(
-                        new CircleShape(new Size(40, 40), new Center(20, 10)),
-                        new Center(0, 0)
-                    ));
+            var monster1 = wildMonsterObjectManager.Create(MonsterName.GOBLIN, 1);
+            var monster2 = wildMonsterObjectManager.Create(MonsterName.GOBLIN, 1);
+            drawables.Add(monster1);
+            drawables.Add(monster2);
 
-            drawables.Add(
-                new SimpleObject(
-                    new SquareShape (new Size(30, 30), new Center(15f, 15f)),               
-                    new Center(150, 80)
-                ));
             managers.Add(objectCollisionManager);
             managers.Add(humanObjectManager);
             managers.Add(wildMonsterObjectManager);
@@ -40,12 +35,9 @@ namespace MonsterFaction.GameWorld
 
         public SimpleObject MakePlayer()
         {
-            // Center 를 분리 할 수 없을까?
-            var playerCenter = new Center(200, 200);
             HumanObject humanObject = new HumanObject(
                 new Characters.Human(),
-                new CircleShape(new Size(30, 30), playerCenter),
-                playerCenter
+                new CircleShape(new Size(30, 30), new Center(200, 200))
             );
             drawables.Add(humanObject);
             humanObjectManager.Add(humanObject);
