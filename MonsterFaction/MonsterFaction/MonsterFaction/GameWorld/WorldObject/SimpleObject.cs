@@ -2,27 +2,25 @@
 using MonsterFaction.GameWorld.WorldObject.Shape;
 using System.Numerics;
 using MonsterFaction.GameWorld.WorldObject.VectorUnit;
+using MonsterFaction.GameWorld.WorldObject.IDGenerator;
 
 namespace MonsterFaction.GameWorld.WorldObject
 {
-    public class SimpleObject : IUpdatable, IDrawable
+    public class SimpleObject : IDrawable
     {
         private readonly IShape shape;
         private readonly Movement movement;
+
+        public readonly int ID = IdGenerator.NextObjectId();
 
         public IShape Shape => shape;
         public IMovement Movement => movement;
         public IMovementForPlayer PlayerMovement => movement;
 
-        public SimpleObject(IShape shape, Center center, Direction direction)
+        public SimpleObject(IShape shape, Center center)
         {
             this.shape = shape;
-            this.movement = new Movement(center, direction);
-        }
-
-        public void Update()
-        {
-            Movement.Move();
+            this.movement = new Movement(center, new Direction(0, 0));
         }
     }
 }
