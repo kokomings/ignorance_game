@@ -17,10 +17,10 @@ namespace MonsterFaction.GameWorld.WorldObject
         public IMovement Movement => movement;
         public IMovementForPlayer PlayerMovement => movement;
 
-        public SimpleObject(IShape shape, Center center)
+        public SimpleObject(IShape shape)
         {
             this.shape = shape;
-            this.movement = new Movement(center, new Direction(0, 0));
+            this.movement = new Movement(shape.Center, new Direction(0, 0));
         }
     }
 }
