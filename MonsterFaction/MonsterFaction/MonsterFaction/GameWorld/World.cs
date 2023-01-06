@@ -1,5 +1,6 @@
 ﻿using MonsterFaction.Characters.Monster;
 using MonsterFaction.GameWorld.WorldObject;
+using MonsterFaction.GameWorld.WorldObject.Collision;
 using MonsterFaction.GameWorld.WorldObject.DomainObject;
 using MonsterFaction.GameWorld.WorldObject.Shape;
 using MonsterFaction.GameWorld.WorldObject.VectorUnit;
@@ -17,9 +18,9 @@ namespace MonsterFaction.GameWorld
         private readonly List<IDrawable> drawables = new();
 
         private readonly List<IUpdatable> managers = new List<IUpdatable>();
+        private readonly ObjectCollisionManager objectCollisionManager = new();
         private readonly HumanObjectManager humanObjectManager = new();
         private readonly WildMonsterObjectManager wildMonsterObjectManager = new();
-        private readonly ObjectCollisionManager objectCollisionManager = new();
 
         public World()
         {
@@ -37,11 +38,12 @@ namespace MonsterFaction.GameWorld
         {
             HumanObject humanObject = new HumanObject(
                 new Characters.Human(),
-                new CircleShape(new Size(30, 30), new Center(200, 200))
+                new CircleShape(30),
+                new Center(200, 200)
             );
             drawables.Add(humanObject);
             humanObjectManager.Add(humanObject);
-            EventBroker.PublishEvent(new CreateEvent(humanObject.ID, humanObject.Shape));
+            EventBroker.PublishEvent(new CreateEvent(humanObject.ID, humanObject.Shape, humanObject.Movement.Center));
             return humanObject;
         }
 

@@ -7,7 +7,7 @@ namespace MonsterFaction.GameWorld.WorldObject.DomainObject
     public class HumanObject: SimpleObject
     {
         public Human Human { get; }
-        public HumanObject(Human human, IShape shape) : base(shape)
+        public HumanObject(Human human, IShape shape, Center center) : base(shape, center)
         {
             Human = human;
         }

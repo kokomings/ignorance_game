@@ -4,9 +4,6 @@ using MonsterFaction.GameWorld.WorldObject.VectorUnit;
 using MonsterFaction.SystemEvents;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MonsterFaction.GameWorld.WorldObject.DomainObject
 {
@@ -20,11 +17,10 @@ namespace MonsterFaction.GameWorld.WorldObject.DomainObject
         {
             var monster = new WildMonsterObject(
                 factory.CreateMonster(name, level),
-                generateRandomShape()
+                generateRandomShape(),
+                new Center(random.Next(0, 300), random.Next(0, 300))
                 );
-            Console.WriteLine(monster.ID);
-            // FIXME: 왜 이벤트 로그 출력 안되지?
-            EventBroker.PublishEvent(new CreateEvent(monster.ID, monster.Shape));
+            EventBroker.PublishEvent(new CreateEvent(monster.ID, monster.Shape, monster.Movement.Center));
             Add(monster);
             return monster;
         }
@@ -44,15 +40,13 @@ namespace MonsterFaction.GameWorld.WorldObject.DomainObject
 
         private IShape generateRandomShape()
         {
-            var Size = new Size(random.Next(20, 60), random.Next(20, 60));
-            var Center = new Center(random.Next(0, 300), random.Next(0, 300));
             if (random.Next(1,3) %2 == 0)
             {
-                return new CircleShape(Size, Center);
+                return new CircleShape(random.Next(20, 60));
             }
             else
             {
-                return new SquareShape(Size, Center);
+                return new SquareShape(random.Next(20, 60), random.Next(20, 60));
             }
         }
     }

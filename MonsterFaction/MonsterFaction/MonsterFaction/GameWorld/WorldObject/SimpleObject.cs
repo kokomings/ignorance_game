@@ -8,19 +8,18 @@ namespace MonsterFaction.GameWorld.WorldObject
 {
     public class SimpleObject : IDrawable
     {
-        private readonly IShape shape;
         private readonly Movement movement;
 
         public readonly int ID = IdGenerator.NextObjectId();
 
-        public IShape Shape => shape;
+        public IShape Shape { get; }
         public IMovement Movement => movement;
         public IMovementForPlayer PlayerMovement => movement;
 
-        public SimpleObject(IShape shape)
+        public SimpleObject(IShape shape, Center center)
         {
-            this.shape = shape;
-            this.movement = new Movement(shape.Center, new Direction(0, 0));
+            Shape = shape;
+            movement = new Movement(center, new Direction(0, 0));
         }
     }
 }

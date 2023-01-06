@@ -4,9 +4,10 @@ namespace MonsterFaction.GameWorld.WorldObject.Shape
 {
     public struct CircleShape : IShape
     {
-        public Size Size { get; private set; }
-        public Center Center { get; private set; }
+        public double Radius { get; }
+        public double Width { get => Radius; }
+        public double Height { get => Radius; }
 
-        public CircleShape(Size size, Center center) { Size = size; Center = center; }
+        public CircleShape(double radius) { Radius = radius; }
     }
 }

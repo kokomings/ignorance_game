@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
 
 namespace MonsterFaction.GameWorld.WorldObject.DomainObject
 {
@@ -21,6 +20,7 @@ namespace MonsterFaction.GameWorld.WorldObject.DomainObject
         {
             foreach (var (key, humanObject) in objects) 
             {
+
                 humanObject.Movement.Move();
             }
         }
