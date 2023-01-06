@@ -39,8 +39,8 @@ namespace GameTester.GameWorldDrawer
         {
             // 우측으로 갈수록 x가 증가하고 위로 갈수록 y가 증가한다.
             // TODO: rect 를 double 로 쓰게하자.
-            rect.Width = (float)gameObject.Shape.Size.Width;
-            rect.Height = (float)gameObject.Shape.Size.Height;
+            rect.Width = (float)gameObject.Shape.Width;
+            rect.Height = (float)gameObject.Shape.Height;
             rect.X = (float)gameObject.Movement.Center.X;
             rect.Y = -(float)gameObject.Movement.Center.Y + 330; // 0,0 좌표를 로그칸 바로 위로 맞추느라 조정.
         }
