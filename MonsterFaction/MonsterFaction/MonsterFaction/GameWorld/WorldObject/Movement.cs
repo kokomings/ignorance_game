@@ -20,5 +20,10 @@ namespace MonsterFaction.GameWorld.WorldObject
         {
             Center = Center + new Center(Velocity.X, Velocity.Y);
         }
+
+        public Center NextPosition()
+        {
+            return Center + new Center(Velocity.X, Velocity.Y);
+        }
     }
 }

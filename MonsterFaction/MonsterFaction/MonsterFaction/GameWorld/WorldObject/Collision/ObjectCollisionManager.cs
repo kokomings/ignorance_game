@@ -3,32 +3,30 @@ using MonsterFaction.GameWorld.WorldObject.VectorUnit;
 using MonsterFaction.SystemEvents;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MonsterFaction.GameWorld.WorldObject.Collision
 {
     // 단순 격자 형태로 구현됨. 이후에 QuadTree 등 알고리즘 개선하자.
-    public class ObjectCollisionManager : IUpdatable
+    public static class ObjectCollisionManager
     {
-        private readonly EventSubscriber<CreateEvent> createEvents = new(EventType.OBJECT_CREATE);
-        private readonly EventSubscriber<MoveEvent> moveEvents = new(EventType.OBJECT_MOVE);
-        private readonly EventSubscriber<DeleteEvent> deleteEvents = new(EventType.OBJECT_DELETE);
+        private readonly static EventSubscriber<CreateEvent> createEvents = new(EventType.OBJECT_CREATE);
+        private readonly static EventSubscriber<MoveEvent> moveEvents = new(EventType.OBJECT_MOVE);
+        private readonly static EventSubscriber<DeleteEvent> deleteEvents = new(EventType.OBJECT_DELETE);
 
-        private HashSet<int>[,] positionToObjectIds = new HashSet<int>[1000, 1000];
-        private Dictionary<int, List<Tuple<int, int>>> objectIdToPositions = new();
-        private Dictionary<int, ShapeOnWorld> objectIdToShapeOnWorld = new();
+        private static HashSet<int>[,] positionToObjectIds = new HashSet<int>[1000, 1000];
+        private static Dictionary<int, List<Tuple<int, int>>> objectIdToPositions = new();
+        private static Dictionary<int, ShapeOnWorld> objectIdToShapeOnWorld = new();
 
-        // Tuple int int 대신 좌표로
-        public HashSet<int> GetCollidingObjectIds(ShapeOnWorld target)
+        static ObjectCollisionManager() { initialize(); }
+
+        public static HashSet<int> GetCollidingObjectIds(ShapeOnWorld target)
         {
             HashSet<int> result = new();
             foreach (var position in getPositions(target))
             {
                 foreach (var objectId in positionToObjectIds[position.Item1, position.Item2])
                 {
-                    if (CollisionChecker.Judge(target, objectIdToShapeOnWorld[objectId]))
+                    if (CollisionChecker.IsCollide(target, objectIdToShapeOnWorld[objectId]))
                     {
                         result.Add(objectId);
                     }
@@ -38,12 +36,12 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
             return result;
         }
 
-        public void FlushAllObject()
+        public static void FlushAllObject()
         {
             throw new NotImplementedException();
         }
 
-        public void Update()
+        public static void Update()
         {
             foreach (var createEvent in createEvents.FetchAll())
             {
@@ -60,7 +58,7 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
             }
         }
 
-        private void setObjectPosition(int objectId, IShape shape, Center center)
+        private static void setObjectPosition(int objectId, IShape shape, Center center)
         {
             objectIdToPositions[objectId] = new();
 
@@ -71,12 +69,12 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
                 objectIdToPositions[objectId].Add(position);
             }
         }
-        private List<Tuple<int, int>> getPositions(ShapeOnWorld shapeOnWorld)
+        private static List<Tuple<int, int>> getPositions(ShapeOnWorld shapeOnWorld)
         {
             return getPositions(shapeOnWorld.Shape, shapeOnWorld.Center);
         }
 
-        private List<Tuple<int, int>> getPositions(IShape shape, Center center)
+        private static List<Tuple<int, int>> getPositions(IShape shape, Center center)
         {
             // 원도 사각형으로 계산 했음.
             double width = shape.Width;
@@ -91,7 +89,7 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
 
             for (int i = left; i <= right; i++)
             {
-                for (int j = top; j <= bottom; j++) 
+                for (int j = bottom; j <= top; j++) 
                 { 
                     result.Add(new Tuple<int, int>(i, j));
                 }
@@ -100,7 +98,7 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
             return result;
         }
 
-        private int normalize(double x)
+        private static int normalize(double x)
         {
             if (x < 0)
                 return 0;
@@ -109,7 +107,7 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
             return (int)x;
         }
 
-        private void moveObjectPosition(int objectId)
+        private static void moveObjectPosition(int objectId)
         {
             foreach (var position in objectIdToPositions[objectId])
             {
@@ -118,7 +116,7 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
             objectIdToPositions[objectId].Clear();
         }
 
-        private void deleteObject(int objectId)
+        private static void deleteObject(int objectId)
         {
             foreach (var position in objectIdToPositions[objectId])
             {
@@ -126,6 +124,17 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
             }
             objectIdToPositions[objectId].Clear();
             objectIdToShapeOnWorld.Remove(objectId);
+        }
+
+        private static void initialize()
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                for (int j = 0; j < 1000; j++)
+                {
+                    positionToObjectIds[i, j] = new();
+                }
+            }
         }
     }
 }
