@@ -18,18 +18,17 @@ namespace MonsterFaction.GameWorld
         private readonly List<IDrawable> drawables = new();
 
         private readonly List<IUpdatable> managers = new List<IUpdatable>();
-        private readonly ObjectCollisionManager objectCollisionManager = new();
         private readonly HumanObjectManager humanObjectManager = new();
         private readonly WildMonsterObjectManager wildMonsterObjectManager = new();
 
         public World()
         {
+            ObjectCollisionManager.Update(); // 최초 호출해서 Event 구독 활성화.
             var monster1 = wildMonsterObjectManager.Create(MonsterName.GOBLIN, 1);
             var monster2 = wildMonsterObjectManager.Create(MonsterName.GOBLIN, 1);
             drawables.Add(monster1);
             drawables.Add(monster2);
 
-            managers.Add(objectCollisionManager);
             managers.Add(humanObjectManager);
             managers.Add(wildMonsterObjectManager);
         }
@@ -54,6 +53,7 @@ namespace MonsterFaction.GameWorld
 
         public void Update()
         {
+            ObjectCollisionManager.Update();
             foreach (var manager in managers)
             {
                 manager.Update();
