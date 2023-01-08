@@ -1,30 +1,24 @@
 ﻿using MonsterFaction.GameWorld.WorldObject.Shape;
 using System.Numerics;
+using MonsterFaction.GameWorld.WorldObject.VectorUnit;
 
 namespace MonsterFaction.GameWorld.WorldObject
 {
     public sealed class Movement : IMovement, IMovementForPlayer
     {
-        private Vector3 position;
-        private Vector2 direction;
-        private Vector3 velocity;
-        public Vector3 Position => position;
-        public Vector2 Direction
+        public Center Center { get; set; }
+        public Direction Direction { get; set; }
+        public Velocity Velocity { get; set; }
+        public Movement(Center center, Direction direction)
         {
-            get { return direction; }
-            set { direction = value; }
-        }
-        public Vector3 Velocity { set => velocity = value; }
-
-        public Movement(Vector3 position, Vector2 direction)
-        {
-            this.position = position;
-            this.direction = direction;
+            Center = center;
+            Direction = direction;
+            Velocity = new Velocity(0, 0);
         }
 
-        public void Move(float speed = 1.0f)
+        public void Move()
         {
-            position = position + velocity * new Vector3(speed, speed, speed);
+            Center = Center + new Center(Velocity.X, Velocity.Y);
         }
     }
 }

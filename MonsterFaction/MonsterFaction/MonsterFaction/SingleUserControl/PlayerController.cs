@@ -1,4 +1,5 @@
 ﻿using MonsterFaction.GameWorld.WorldObject.Shape;
+using MonsterFaction.GameWorld.WorldObject.VectorUnit;
 using System;
 using System.Numerics;
 
@@ -21,10 +22,10 @@ namespace MonsterFaction.SingleUserControl
         private const float RADIAN_90 = 1.5708f;
         private const float RADIAN_180 = 3.14159f;
         private const float RADIAN_270 = 4.71239f;
-        private static readonly Vector2 Up = new(MathF.Cos(RADIAN_90), MathF.Sin(RADIAN_90));
-        private static readonly Vector2 Down = new(MathF.Cos(RADIAN_270), MathF.Sin(RADIAN_270));
-        private static readonly Vector2 Left = new(MathF.Cos(RADIAN_180), MathF.Sin(RADIAN_180));
-        private static readonly Vector2 Right = new(MathF.Cos(RADIAN_0), MathF.Sin(RADIAN_0));
+        private static readonly Direction Up = new(MathF.Cos(RADIAN_90), MathF.Sin(RADIAN_90));
+        private static readonly Direction Down = new(MathF.Cos(RADIAN_270), MathF.Sin(RADIAN_270));
+        private static readonly Direction Left = new(MathF.Cos(RADIAN_180), MathF.Sin(RADIAN_180));
+        private static readonly Direction Right = new(MathF.Cos(RADIAN_0), MathF.Sin(RADIAN_0));
 
         private static readonly float WALK_SPEED = 1.0f;
         private static readonly float RUN_SPEED = 3.0f;
@@ -82,7 +83,7 @@ namespace MonsterFaction.SingleUserControl
         private void Move()
         {
             var speed = movementInput.isAccelerationPressed ? RUN_SPEED : WALK_SPEED;
-            var newDirection = Vector2.Zero;
+            var newDirection = new Direction(0, 0);
             if (movementInput.isUpPressed)
             {
                 newDirection += Up;
@@ -101,15 +102,15 @@ namespace MonsterFaction.SingleUserControl
             }
             playerMovement.Direction = newDirection;
 
-            playerMovement.Velocity = new Vector3(
+            playerMovement.Velocity = new Velocity(
                 playerMovement.Direction.X * speed,
-                0,
-                playerMovement.Direction.Y * speed);
+                playerMovement.Direction.Y * speed
+                );
         }
 
         private void Stop()
         {
-            playerMovement.Velocity = Vector3.Zero;
+            playerMovement.Velocity = new Velocity(0, 0);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MonsterFaction.GameWorld.WorldObject;
 using MonsterFaction.GameWorld.WorldObject.Shape;
+using MonsterFaction.GameWorld.WorldObject.VectorUnit;
 using MonsterFaction.SystemEvents;
 using System.Collections.Generic;
 using System.Numerics;
@@ -11,34 +12,39 @@ namespace MonsterFaction.GameWorld
         private readonly Vector3 WorldSize = new(1000, 200, 1000);
 
         // 게임 오브젝트 그리기 테스트용
-        private readonly List<Human> testObjects = new();
+        private readonly List<SimpleObject> testObjects = new();
+
+        private readonly List<IUpdatable> managers = new List<IUpdatable>();
 
         public World()
         {
             testObjects.Add(
-                    new Human(
-                        new SphereShape(new Vector3(40, 100, 20), new Vector3(20, 50, 10)),
-                        Vector3.Zero,
-                        Vector2.Zero
+                    new SimpleObject(
+                        new CircleShape(new Size(40, 40), new Center(20, 10)),
+                        new Center(0, 0),
+                        new Direction(0, 0)
                     ));
 
             testObjects.Add(
-                new Human(
-                    new BoxShape(new Vector3(30, 30, 30), new Vector3(15f, 15f, 15f)),
-                    new Vector3(150, 80, -60),
-                    Vector2.Zero
+                new SimpleObject(
+                    new SquareShape (new Size(30, 30), new Center(15f, 15f)),               
+                    new Center(150, 80),
+                    new Direction(0, 0)
                 ));
+            managers.Add(new ObjectCollisionManager());
         }
 
-        public Human MakePlayer()
+        public SimpleObject MakePlayer()
         {
-            var player = new Human(
-                        new SphereShape(new Vector3(30, 30, 30), new Vector3(15, 15, 15)),
-                        new Vector3(800, 0, -400),
-                        Vector2.Zero
+            // Center 를 분리 할 수 없을까?
+            var playerCenter = new Center(200, 200);
+            var player = new SimpleObject(
+                        new CircleShape (new Size(30, 30), playerCenter),
+                        playerCenter,
+                        new Direction(0, 0)
                     );
             testObjects.Add(player);
-            EventBroker.PublishEvent(new CreateEvent { ObjectId = 1});
+            EventBroker.PublishEvent(new CreateEvent(1, player.Shape));
             return player;
         }
 
@@ -52,6 +58,10 @@ namespace MonsterFaction.GameWorld
             foreach (var testObject in testObjects)
             {
                 testObject.Update();
+            }
+            foreach (var manager in managers)
+            {
+                manager.Update();
             }
         }
     }

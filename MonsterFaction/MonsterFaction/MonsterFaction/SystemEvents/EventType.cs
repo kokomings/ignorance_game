@@ -2,6 +2,6 @@
 {
     public enum EventType
     {
-        CREATE, DELETE
+        OBJECT_CREATE, OBJECT_MOVE, OBJECT_DELETE
     }
 }
