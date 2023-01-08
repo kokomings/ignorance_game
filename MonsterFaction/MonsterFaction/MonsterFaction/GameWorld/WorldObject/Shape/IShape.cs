@@ -2,9 +2,9 @@
 
 namespace MonsterFaction.GameWorld.WorldObject.Shape
 {
-    public interface IShape
+    public interface IShape 
     {
-        public Size Size { get; }
-        public Center Center { get; }
+        double Width { get; }
+        double Height { get; }
     }
 }

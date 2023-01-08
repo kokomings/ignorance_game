@@ -13,11 +13,13 @@ namespace MonsterFaction.SystemEvents
         public readonly EventType EventType { get; init; }
         public readonly int ObjectId { get; init; }
         public readonly IShape Shape { get; init; }
-        public CreateEvent(int ObjectId, IShape shape)
+        public readonly Center Center { get; init; }
+        public CreateEvent(int objectId, IShape shape, Center center)
         {
-            this.EventType = EventType.OBJECT_CREATE;
-            this.ObjectId = ObjectId;
-            this.Shape = shape;
+            EventType = EventType.OBJECT_CREATE;
+            ObjectId = objectId;
+            Shape = shape;
+            Center = center;
         }
     }
     public readonly struct MoveEvent : IEvent
@@ -25,11 +27,11 @@ namespace MonsterFaction.SystemEvents
         public readonly EventType EventType { get; init; }
         public readonly int ObjectId { get; init; }
         public readonly Center NewPosition { get; init; }
-        public MoveEvent(int ObjectId, Center newPosition)
+        public MoveEvent(int objectId, Center newPosition)
         {
-            this.EventType = EventType.OBJECT_MOVE;
-            this.ObjectId = ObjectId;
-            this.NewPosition = newPosition;
+            EventType = EventType.OBJECT_MOVE;
+            ObjectId = objectId;
+            NewPosition = newPosition;
         }
     }
 

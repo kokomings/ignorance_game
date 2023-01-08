@@ -7,5 +7,6 @@ namespace MonsterFaction.GameWorld.WorldObject
         public Center Center { get; }
         public Direction Direction { get; }
         public void Move();
+        public Center NextPosition();
     }
 }

@@ -59,8 +59,12 @@ namespace GameTester
 
         private void PrintLog(Log log)
         {
-            this.textBox1.AppendText($"{DateTime.Now}[Log] {log.Text}");
-            this.textBox1.AppendText(Environment.NewLine);
+            try
+            {
+                this.textBox1.AppendText($"{DateTime.Now}[Log] {log.Text}");
+                this.textBox1.AppendText(Environment.NewLine);
+            }
+            catch (Exception ex) { }
         }
 
         public bool PreFilterMessage(ref Message m)

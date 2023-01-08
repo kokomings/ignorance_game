@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.Design;
 
 namespace MonsterFaction.SystemEvents
 {
@@ -8,6 +9,7 @@ namespace MonsterFaction.SystemEvents
 
         public static void PublishEvent(IEvent systemEvent)
         {
+            initialize(systemEvent.EventType);
             var channel = eventChannels[systemEvent.EventType];
             foreach(var eventQueue in channel)
             {
@@ -17,11 +19,16 @@ namespace MonsterFaction.SystemEvents
 
         public static void Subscribe(EventType eventType, Queue<IEvent> eventQueue)
         {
+            initialize(eventType);
+            eventChannels[eventType].Add(eventQueue);
+        }
+
+        private static void initialize(EventType eventType)
+        {
             if (!eventChannels.ContainsKey(eventType))
             {
                 eventChannels[eventType] = new();
             }
-            eventChannels[eventType].Add(eventQueue);
         }
     }
 }

@@ -24,8 +24,8 @@ namespace MonsterFaction
         private DateTime previousGameTime = DateTime.Now;
         private TimeSpan lag = TimeSpan.Zero;
 
+        private readonly EventSubscriber<CreateEvent> eventSubscriber = new(EventType.OBJECT_CREATE);
         private readonly World gameWorld = new();
-        private readonly EventSubscriber<CreateEvent> eventSubscriber = new (EventType.OBJECT_CREATE);
         public IDrawableWorld GameWorld => gameWorld;
 
         public Game()
@@ -53,7 +53,7 @@ namespace MonsterFaction
         {
             foreach (CreateEvent systemEvent in eventSubscriber.FetchAll())
             {
-                Logger.Log.Information($"[CreateEvent]. ObjectId: {systemEvent.ObjectId}");
+                Logger.Log.Information($"[CreateEvent]. ID: {systemEvent.ObjectId}");
             }
         }
 

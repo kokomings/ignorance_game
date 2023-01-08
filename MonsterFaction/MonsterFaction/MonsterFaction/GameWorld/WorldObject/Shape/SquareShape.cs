@@ -4,9 +4,9 @@ namespace MonsterFaction.GameWorld.WorldObject.Shape
 {
     public struct SquareShape : IShape
     {
-        public Size Size { get; private set; }
-        public Center Center { get; private set; }
+        public double Width { get; }
+        public double Height { get; }
 
-        public SquareShape(Size size, Center center) { Size = size; Center = center; }
+        public SquareShape(double width, double height) { Width = width; Height = height; }
     }
 }
