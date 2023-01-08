@@ -6,7 +6,6 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
 {
     public static class CollisionChecker
     {
-        private static int testLoggerCounter = 0;
         public static Boolean IsCollide(ShapeOnWorld target1, ShapeOnWorld target2)
         {
             return isCollide(target1.Shape, target1.Center, target2.Shape, target2.Center);
@@ -50,7 +49,7 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
             double centerWidthGap = Math.Abs(center1.X - center2.X);
             double centerHeightGap = Math.Abs(center1.Y - center2.Y);
 
-            return widthSum >= centerWidthGap && heightSum >= centerHeightGap;
+            return widthSum / 2 >= centerWidthGap && heightSum / 2 >= centerHeightGap;
         }
         private static Boolean isCollide(CircleShape circleShape, Center circleCenter, SquareShape squareShape, Center squareCenter)
         {
@@ -60,6 +59,8 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
             var topRight = squareCenter + new Center(squareShape.Width / 2, squareShape.Height / 2);
             var bottomLeft = squareCenter + new Center(- squareShape.Width / 2, - squareShape.Height / 2);
             var bottomRight = squareCenter + new Center(squareShape.Width / 2, - squareShape.Height / 2);
+            
+            var testCenter = squareCenter + new Center(- circleShape.Radius, circleShape.Height);
 
             return isCollide(wideExtendedSquare, squareCenter, circleCenter) ||
                 isCollide(verticalExtendedSquare, squareCenter, circleCenter) ||
@@ -80,11 +81,10 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
 
         private static Boolean isCollide(SquareShape squareShape, Center shapeCenter, Center dot)
         {
-            
             double widthGap = Math.Abs(shapeCenter.X - dot.X);
             double heightGap = Math.Abs(shapeCenter.Y - dot.Y);
 
-            return squareShape.Width / 2 <= widthGap && squareShape.Height / 2 <= heightGap;
+            return squareShape.Width / 2 >= widthGap && squareShape.Height / 2 >= heightGap;
         }
     }
 }

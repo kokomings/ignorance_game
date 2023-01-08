@@ -25,9 +25,9 @@ namespace MonsterFaction.GameWorld
         {
             ObjectCollisionManager.Update(); // 최초 호출해서 Event 구독 활성화.
             var monster1 = wildMonsterObjectManager.Create(MonsterName.GOBLIN, 1);
-            var monster2 = wildMonsterObjectManager.Create(MonsterName.GOBLIN, 1);
+            //var monster2 = wildMonsterObjectManager.Create(MonsterName.GOBLIN, 1);
             drawables.Add(monster1);
-            drawables.Add(monster2);
+            //drawables.Add(monster2);
 
             managers.Add(humanObjectManager);
             managers.Add(wildMonsterObjectManager);

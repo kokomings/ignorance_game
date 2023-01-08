@@ -3,6 +3,7 @@ using MonsterFaction.GameWorld.WorldObject.VectorUnit;
 using MonsterFaction.SystemEvents;
 using System;
 using System.Collections.Generic;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MonsterFaction.GameWorld.WorldObject.Collision
 {
@@ -21,17 +22,32 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
 
         public static HashSet<int> GetCollidingObjectIds(ShapeOnWorld target)
         {
+            HashSet<int> targetObjectIds = new();
             HashSet<int> result = new();
             foreach (var position in getPositions(target))
             {
                 foreach (var objectId in positionToObjectIds[position.Item1, position.Item2])
                 {
-                    if (CollisionChecker.IsCollide(target, objectIdToShapeOnWorld[objectId]))
-                    {
-                        result.Add(objectId);
-                    }
+                    targetObjectIds.Add(objectId);
                 }
             }
+
+            foreach (var objectId in targetObjectIds)
+            {
+                if (CollisionChecker.IsCollide(target, objectIdToShapeOnWorld[objectId]))
+                {
+                    result.Add(objectId);
+                }
+            }
+
+            //// test
+            //foreach (var sw in objectIdToShapeOnWorld)
+            //{
+            //    if (CollisionChecker.IsCollide(target, sw.Value))
+            //    {
+            //        result.Add(sw.Key);
+            //    }
+            //}
 
             return result;
         }
