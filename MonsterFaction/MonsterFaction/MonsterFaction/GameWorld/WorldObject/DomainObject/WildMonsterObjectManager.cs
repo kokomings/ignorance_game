@@ -18,7 +18,7 @@ namespace MonsterFaction.GameWorld.WorldObject.DomainObject
             var monster = new WildMonsterObject(
                 factory.CreateMonster(name, level),
                 generateRandomShape(),
-                new Center(random.Next(0, 300), random.Next(0, 300))
+                new Center(random.Next(100, 200), random.Next(100, 200))
                 );
             EventBroker.PublishEvent(new CreateEvent(monster.ID, monster.Shape, monster.Movement.Center));
             Add(monster);
@@ -40,14 +40,15 @@ namespace MonsterFaction.GameWorld.WorldObject.DomainObject
 
         private IShape generateRandomShape()
         {
-            if (random.Next(1,3) %2 == 0)
-            {
-                return new CircleShape(random.Next(20, 60));
-            }
-            else
-            {
-                return new SquareShape(random.Next(20, 60), random.Next(20, 60));
-            }
+            //if (random.Next(1,3) %2 == 0)
+            //{
+            //    return new SquareShape(random.Next(20, 60), random.Next(20, 60));
+            //}
+            //else
+            //{
+            //    return new SquareShape(random.Next(20, 60), random.Next(20, 60));
+            //}
+            return new SquareShape(20, 20);
         }
     }
 }
