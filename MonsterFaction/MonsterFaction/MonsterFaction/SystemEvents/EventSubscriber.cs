@@ -2,6 +2,7 @@
 
 namespace MonsterFaction.SystemEvents
 {
+    // Event 발행 전에 구독을 해놔야함.
     public class EventSubscriber<T> where T : IEvent
     {
         private Queue<IEvent> eventQueue = new Queue<IEvent>();
