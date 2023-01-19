@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MonsterFaction.Characters.Ability;
 
 namespace MonsterFaction.Characters.Tests
 {

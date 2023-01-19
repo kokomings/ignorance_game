@@ -1,18 +1,19 @@
 using System.Collections.Generic;
+using MonsterFaction.Characters.Ability;
 
 namespace MonsterFaction.Characters
 {
     public class CharacterStatus
     {
         public Stat BaseStat { get; set; } = new Stat();
-        private List<StatSkill> statSkills = new List<StatSkill>();
+        private List<StatAbility> statSkills = new List<StatAbility>();
 
         public CharacterStatus(Stat stat)
         {
             BaseStat = stat;
         }
 
-        public void AddSkill(StatSkill skill)
+        public void AddSkill(StatAbility skill)
         {
             statSkills.Add(skill);
         }
@@ -20,7 +21,7 @@ namespace MonsterFaction.Characters
         public Stat GetTotalStat()
         {
             var totalStat = BaseStat;
-            foreach (StatSkill statSkill in statSkills)
+            foreach (StatAbility statSkill in statSkills)
             {
                 totalStat += statSkill.Stat;
             }

@@ -1,4 +1,6 @@
-﻿namespace MonsterFaction.Characters
+﻿using MonsterFaction.Characters.Ability;
+
+namespace MonsterFaction.Characters
 {
     abstract public class Character
     {

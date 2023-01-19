@@ -1,8 +1,10 @@
-﻿namespace MonsterFaction.Characters.Monster
+﻿using MonsterFaction.Characters.Ability;
+
+namespace MonsterFaction.Characters.Monster
 {
     public class WildMonsterFactory
     {
-        private RandomStatSkillProvider repository = new TempStatSkillRepository();
+        private RandomAbilityProvider repository = new TempAbilityRepository();
         private MonsterDictionary monsterDictionary = new();
 
         public WildMonster CreateMonster(MonsterName name, int level)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MonsterFaction.Characters.Ability;
 
 namespace MonsterFaction.Characters.Monster
 {
