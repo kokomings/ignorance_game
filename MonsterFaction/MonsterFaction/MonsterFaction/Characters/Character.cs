@@ -6,7 +6,6 @@ namespace MonsterFaction.Characters
     {
         protected readonly CharacterStatus characterStatus;
         protected Body body;
-
         public Character(Stat baseStat)
         {
             this.characterStatus = new CharacterStatus(baseStat);

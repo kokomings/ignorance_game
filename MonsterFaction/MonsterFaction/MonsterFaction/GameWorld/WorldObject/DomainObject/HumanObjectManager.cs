@@ -1,5 +1,6 @@
 ﻿using MonsterFaction.GameWorld.WorldObject.Collision;
 using MonsterFaction.GameWorld.WorldObject.VectorUnit;
+using MonsterFaction.SystemEvents;
 using System.Collections.Generic;
 
 namespace MonsterFaction.GameWorld.WorldObject.DomainObject
@@ -29,6 +30,7 @@ namespace MonsterFaction.GameWorld.WorldObject.DomainObject
                 if (blockingObjects.Count >= 2 || blockingObjects.Count == 1 && !blockingObjects.Contains(humanObject.ID))
                     continue;
                 humanObject.Movement.Move();
+                EventBroker.PublishEvent(new MoveEvent(humanObject.ID, humanObject.Movement.Center));
             }
         }
     }

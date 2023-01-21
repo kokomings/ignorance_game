@@ -11,5 +11,10 @@ namespace MonsterFaction.GameWorld.WorldObject.DomainObject
         {
             Human = human;
         }
+
+        public void Attack()
+        {
+            // publish attack event?
+        }
     }
 }

@@ -39,6 +39,9 @@ namespace GameTester
                 case Keys.ShiftKey:
                     InputListener.Input.Acceleration_Down();
                     break;
+                case Keys.J:
+                    InputListener.Input.Attack_Down();
+                    break;
             }
         }
         private static void TestWindow_KeyUp(Keys keyData)

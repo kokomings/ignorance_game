@@ -67,6 +67,11 @@ namespace MonsterFaction
             playerController.Acceleration(false);
         }
 
+        public void Attack_Down()
+        {
+            // TODO 구조 개선하고 구현.
+        }
+
         //  Backspace or switch(+)
         public void Status() { }
 
