@@ -30,8 +30,7 @@ namespace MonsterFaction
 
         public Game()
         {
-            var newPlayer = gameWorld.MakePlayer();
-            InputListener.Input.SetPlayerMovement(newPlayer.PlayerMovement);
+            gameWorld.MakePlayer();
         }
 
         public void GameLoop()
@@ -66,6 +65,11 @@ namespace MonsterFaction
         {
             gameWorld.Update();
             printEvent();
+        }
+
+        public InputListener GetInputListener()
+        {
+            return this.gameWorld.inputListener;
         }
     }
 }

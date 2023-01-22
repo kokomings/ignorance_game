@@ -1,67 +1,60 @@
-﻿using MonsterFaction;
+﻿using Microsoft.VisualBasic.Devices;
+using MonsterFaction;
+using MonsterFaction.GameWorld.WorldObject.VectorUnit;
+using System;
 using System.Windows.Forms;
 
 namespace GameTester
 {
-    public static class KeyBindings
+    public class KeyBindings
     {
-        public const int WM_KEYDOWN = 0x100;
-        public const int WM_KEYUP = 0x101;
-
-        public static void KeyEvent(ref Message msg, Keys keyData)
-        {
-            if (msg.Msg == WM_KEYDOWN)
-            {
-                TestWindow_KeyDown(keyData);
-            }
-            else if (msg.Msg == WM_KEYUP)
-            {
-                TestWindow_KeyUp(keyData);
-            }
+        private readonly InputListener inputListener;
+        public KeyBindings(InputListener inputListener) 
+        { 
+            this.inputListener = inputListener;
         }
-
-        private static void TestWindow_KeyDown(Keys keyData)
+        public void TestWindow_KeyDown(Keys keyData)
         {
             switch (keyData)
             {
                 case Keys.W:
-                    InputListener.Input.UpButton_Down();
+                    inputListener.UpButton_Down();
                     break;
                 case Keys.S:
-                    InputListener.Input.DownButton_Down();
+                    inputListener.DownButton_Down();
                     break;
                 case Keys.A:
-                    InputListener.Input.LeftButton_Down();
+                    inputListener.LeftButton_Down();
                     break;
                 case Keys.D:
-                    InputListener.Input.RightButton_Down();
+                    inputListener.RightButton_Down();
                     break;
                 case Keys.ShiftKey:
-                    InputListener.Input.Acceleration_Down();
+                    inputListener.Acceleration_Down();
                     break;
                 case Keys.J:
-                    InputListener.Input.Attack_Down();
+                    inputListener.Attack_Down();
                     break;
             }
         }
-        private static void TestWindow_KeyUp(Keys keyData)
+        public void TestWindow_KeyUp(Keys keyData)
         {
             switch (keyData)
             {
                 case Keys.W:
-                    InputListener.Input.UpButton_Up();
+                    inputListener.UpButton_Up();
                     break;
                 case Keys.S:
-                    InputListener.Input.DownButton_Up();
+                    inputListener.DownButton_Up();
                     break;
                 case Keys.A:
-                    InputListener.Input.LeftButton_Up();
+                    inputListener.LeftButton_Up();
                     break;
                 case Keys.D:
-                    InputListener.Input.RightButton_Up();
+                    inputListener.RightButton_Up();
                     break;
                 case Keys.ShiftKey:
-                    InputListener.Input.Acceleration_Up();
+                    inputListener.Acceleration_Up();
                     break;
             }
         }

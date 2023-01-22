@@ -1,20 +1,24 @@
 ﻿using GameTester.GameWorldDrawer;
 using MonsterFaction;
+using MonsterFaction.GameWorld.WorldObject.VectorUnit;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GameTester
 {
-    public partial class TestWindow : Form, IMessageFilter
+    public partial class TestWindow : Form
     {
         private readonly Game game = new();
+        private readonly KeyBindings keyBindings;
 
         public TestWindow()
         {
+            keyBindings = new KeyBindings(game.GetInputListener());
+            this.KeyDown += TestWindow_KeyDown;
+            this.KeyUp += TestWindow_KeyUp;
+            this.KeyPreview = true;
             InitializeComponent();
-            Application.AddMessageFilter(this);
-            this.FormClosed += (s, e) => Application.RemoveMessageFilter(this);
         }
 
         private void TestWindow_Load(object sender, EventArgs e)
@@ -35,6 +39,19 @@ namespace GameTester
 
                 await Task.Delay(8);
             }
+           
+        }
+
+        private void TestWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            
+            keyBindings.TestWindow_KeyDown(e.KeyCode);
+        }
+
+
+        private void TestWindow_KeyUp(object sender, KeyEventArgs e)
+        {
+            keyBindings.TestWindow_KeyUp(e.KeyCode);
         }
 
         private void TestWindow_Paint(object sender, PaintEventArgs e)
@@ -65,16 +82,6 @@ namespace GameTester
                 this.textBox1.AppendText(Environment.NewLine);
             }
             catch (Exception ex) { }
-        }
-
-        public bool PreFilterMessage(ref Message m)
-        {
-            if (m.Msg == KeyBindings.WM_KEYDOWN || m.Msg == KeyBindings.WM_KEYUP)
-            {
-                KeyBindings.KeyEvent(ref m, (Keys)m.WParam.ToInt32());
-            }
-
-            return false;
         }
     }
 }

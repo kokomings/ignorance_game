@@ -7,31 +7,32 @@ namespace MonsterFaction.GameWorld.WorldObject.DomainObject
 {
     public class HumanObjectManager: IUpdatable
     {
-        private readonly Dictionary<int, HumanObject> objects = new();
+        private HumanObject humanObject;
 
-        public void Add(HumanObject obj)
+        public void Assign(HumanObject human)
         {
-            objects.Add(obj.ID, obj);
+            this.humanObject = human;
         }
-
-        public void Remove(int objectId) 
+        private int test = 0;
+        public void Move(Direction direction, double speed)
         {
-            objects.Remove(objectId);
+            if (direction.X == 0 && direction.Y == 0)
+                return;
+
+            // 테스트를 위해 충돌되면 못 가게 하고 있음.
+            Center nextCenter = humanObject.Center + new Center(direction.X * speed, direction.Y * speed);
+            var blockingObjects = ObjectCollisionManager.GetCollidingObjectIds(
+                new ShapeOnWorld(humanObject.Shape, nextCenter)
+                );
+            if (blockingObjects.Count >= 2 || blockingObjects.Count == 1 && !blockingObjects.Contains(humanObject.ID))
+                return;
+            humanObject.Center = nextCenter;
+            EventBroker.PublishEvent(new MoveEvent(humanObject.ID, humanObject.Center));
         }
 
         public void Update()
         {
-            foreach (var (key, humanObject) in objects) 
-            {
-                // 테스트를 위해 충돌되면 못 가게 하고 있음.
-                var blockingObjects = ObjectCollisionManager.GetCollidingObjectIds(
-                    new ShapeOnWorld(humanObject.Shape, humanObject.Movement.NextPosition())
-                    );
-                if (blockingObjects.Count >= 2 || blockingObjects.Count == 1 && !blockingObjects.Contains(humanObject.ID))
-                    continue;
-                humanObject.Movement.Move();
-                EventBroker.PublishEvent(new MoveEvent(humanObject.ID, humanObject.Movement.Center));
-            }
+
         }
     }
 }
