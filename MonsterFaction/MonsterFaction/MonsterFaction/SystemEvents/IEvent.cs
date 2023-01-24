@@ -5,28 +5,26 @@ namespace MonsterFaction.SystemEvents
 {
     public interface IEvent 
     {
-        public EventType EventType { get; init; }
+        public EventType EventType { get; }
     }
 
     public readonly struct CreateEvent : IEvent
     {
-        public readonly EventType EventType { get; init; }
-        public readonly int ObjectId { get; init; }
-        public readonly IShape Shape { get; init; }
-        public readonly Center Center { get; init; }
-        public CreateEvent(int objectId, IShape shape, Center center)
+        public readonly EventType EventType { get; }
+        public readonly int ObjectId { get; }
+        public readonly Area Area { get; }
+        public CreateEvent(int objectId, Area area)
         {
             EventType = EventType.OBJECT_CREATE;
             ObjectId = objectId;
-            Shape = shape;
-            Center = center;
+            Area = area;
         }
     }
     public readonly struct MoveEvent : IEvent
     {
-        public readonly EventType EventType { get; init; }
-        public readonly int ObjectId { get; init; }
-        public readonly Center NewPosition { get; init; }
+        public readonly EventType EventType { get; }
+        public readonly int ObjectId { get; }
+        public readonly Center NewPosition { get; }
         public MoveEvent(int objectId, Center newPosition)
         {
             EventType = EventType.OBJECT_MOVE;
@@ -37,12 +35,24 @@ namespace MonsterFaction.SystemEvents
 
     public readonly struct DeleteEvent : IEvent
     {
-        public readonly EventType EventType { get; init; }
-        public readonly int ObjectId { get; init; }
-        public DeleteEvent(int ObjectId)
+        public readonly EventType EventType { get; }
+        public readonly int ObjectId { get; }
+        public DeleteEvent(int objectId)
         {
-            this.EventType = EventType.OBJECT_DELETE;
-            this.ObjectId = ObjectId;
+            EventType = EventType.OBJECT_DELETE;
+            ObjectId = objectId;
+        }
+    }
+    public readonly struct AttackEvent : IEvent
+    {
+        public readonly EventType EventType { get; }
+        public readonly Area Area { get; }
+        public readonly bool HumanTeam { get; }
+        public AttackEvent(Area area, bool humanTeam)
+        {
+            EventType = EventType.ATTACK;
+            Area = area;
+            HumanTeam = humanTeam;
         }
     }
 }

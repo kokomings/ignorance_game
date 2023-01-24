@@ -1,35 +1,42 @@
 ﻿using MonsterFaction.GameWorld.WorldObject.Collision;
 using MonsterFaction.GameWorld.WorldObject.VectorUnit;
-using System.Collections.Generic;
+using MonsterFaction.GameWorld.WorldObject.Shape;
+using MonsterFaction.SystemEvents;
 
 namespace MonsterFaction.GameWorld.WorldObject.DomainObject
 {
-    public class HumanObjectManager: IUpdatable
+    public class HumanObjectManager: IUpdatable // updatable 필요 없을 듯.
     {
-        private readonly Dictionary<int, HumanObject> objects = new();
+        private HumanObject humanObject;
 
-        public void Add(HumanObject obj)
+        public void Assign(HumanObject human)
         {
-            objects.Add(obj.ID, obj);
+            this.humanObject = human;
+        }
+        public void Move(Direction direction, double speed)
+        {
+            if (direction.X == 0 && direction.Y == 0)
+                return;
+
+            // 테스트를 위해 충돌되면 못 가게 하고 있음.
+            Center nextCenter = humanObject.Center + new Center(direction.X * speed, direction.Y * speed);
+            var blockingObjects = ObjectCollisionManager.GetCollidingObjectIds(
+                new Area(humanObject.Shape, nextCenter)
+                );
+            if (blockingObjects.Count >= 2 || blockingObjects.Count == 1 && !blockingObjects.Contains(humanObject.ID))
+                return;
+            humanObject.Center = nextCenter;
+            EventBroker.PublishEvent(new MoveEvent(humanObject.ID, humanObject.Center));
         }
 
-        public void Remove(int objectId) 
+        public void Attack()
         {
-            objects.Remove(objectId);
+            
         }
 
         public void Update()
         {
-            foreach (var (key, humanObject) in objects) 
-            {
-                // 테스트를 위해 충돌되면 못 가게 하고 있음.
-                var blockingObjects = ObjectCollisionManager.GetCollidingObjectIds(
-                    new ShapeOnWorld(humanObject.Shape, humanObject.Movement.NextPosition())
-                    );
-                if (blockingObjects.Count >= 2 || blockingObjects.Count == 1 && !blockingObjects.Contains(humanObject.ID))
-                    continue;
-                humanObject.Movement.Move();
-            }
+
         }
     }
 }

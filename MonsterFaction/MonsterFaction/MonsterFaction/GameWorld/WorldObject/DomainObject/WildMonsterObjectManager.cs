@@ -20,7 +20,7 @@ namespace MonsterFaction.GameWorld.WorldObject.DomainObject
                 generateRandomShape(),
                 new Center(random.Next(100, 200), random.Next(100, 200))
                 );
-            EventBroker.PublishEvent(new CreateEvent(monster.ID, monster.Shape, monster.Movement.Center));
+            EventBroker.PublishEvent(new CreateEvent(monster.ID, new Area(monster.Shape, monster.Center)));
             Add(monster);
             return monster;
         }

@@ -1,6 +1,4 @@
-﻿using MonsterFaction.GameWorld.WorldObject.VectorUnit;
-
-namespace MonsterFaction.GameWorld.WorldObject.Shape
+﻿namespace MonsterFaction.GameWorld.WorldObject.Shape
 {
     public interface IShape 
     {

@@ -1,4 +1,6 @@
-﻿namespace MonsterFaction.Characters.Monster
+﻿using MonsterFaction.Characters.Ability;
+
+namespace MonsterFaction.Characters.Monster
 {
     public class WildMonster: Character
     {
@@ -10,7 +12,7 @@
             Level = level;
         }
 
-        public void AddStatSkill(StatSkill statSkill)
+        public void AddStatSkill(StatAbility statSkill)
         {
             this.characterStatus.AddSkill(statSkill);
         }

@@ -16,11 +16,11 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
 
         private static HashSet<int>[,] positionToObjectIds = new HashSet<int>[1000, 1000];
         private static Dictionary<int, List<Tuple<int, int>>> objectIdToPositions = new();
-        private static Dictionary<int, ShapeOnWorld> objectIdToShapeOnWorld = new();
+        private static Dictionary<int, Area> objectIdToShapeOnWorld = new();
 
         static ObjectCollisionManager() { initialize(); }
 
-        public static HashSet<int> GetCollidingObjectIds(ShapeOnWorld target)
+        public static HashSet<int> GetCollidingObjectIds(Area target)
         {
             HashSet<int> targetObjectIds = new();
             HashSet<int> result = new();
@@ -61,8 +61,8 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
         {
             foreach (var createEvent in createEvents.FetchAll())
             {
-                setObjectPosition(createEvent.ObjectId, createEvent.Shape, createEvent.Center);
-                objectIdToShapeOnWorld[createEvent.ObjectId] = new ShapeOnWorld(createEvent.Shape, createEvent.Center);
+                setObjectPosition(createEvent.ObjectId, createEvent.Area);
+                objectIdToShapeOnWorld[createEvent.ObjectId] = createEvent.Area;
             }
             foreach (var moveEvent in moveEvents.FetchAll())
             {
@@ -74,20 +74,20 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
             }
         }
 
-        private static void setObjectPosition(int objectId, IShape shape, Center center)
+        private static void setObjectPosition(int objectId, Area area)
         {
             objectIdToPositions[objectId] = new();
 
-            List<Tuple<int, int>> positions = getPositions(shape, center);
+            List<Tuple<int, int>> positions = getPositions(area);
             foreach (var position in positions)
             {
                 positionToObjectIds[position.Item1, position.Item2].Add(objectId);
                 objectIdToPositions[objectId].Add(position);
             }
         }
-        private static List<Tuple<int, int>> getPositions(ShapeOnWorld shapeOnWorld)
+        private static List<Tuple<int, int>> getPositions(Area area)
         {
-            return getPositions(shapeOnWorld.Shape, shapeOnWorld.Center);
+            return getPositions(area.Shape, area.Center);
         }
 
         private static List<Tuple<int, int>> getPositions(IShape shape, Center center)

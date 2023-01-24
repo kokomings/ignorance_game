@@ -35,16 +35,14 @@ namespace GameTester.GameWorldDrawer
         {
             e.Graphics.DrawRectangle(blackPen, rect);
         }
-
-        private static int testCounter = 0;
         private static void DecideRect(IDrawable gameObject)
         {
             // 우측으로 갈수록 x가 증가하고 위로 갈수록 y가 증가한다.
             // TODO: rect 를 double 로 쓰게하자.
             rect.Width = (float)gameObject.Shape.Width;
             rect.Height = (float)gameObject.Shape.Height;
-            rect.X = (float)gameObject.Movement.Center.X - (float)gameObject.Shape.Width / 2; // 충돌 좌표계와 위치 맞춤.
-            rect.Y = -(float)gameObject.Movement.Center.Y - (float)gameObject.Shape.Height / 2 + 330; // 0,0 좌표를 로그칸 바로 위로 맞추느라 조정.
+            rect.X = (float)gameObject.Center.X - (float)gameObject.Shape.Width / 2; // 충돌 좌표계와 위치 맞춤.
+            rect.Y = -(float)gameObject.Center.Y - (float)gameObject.Shape.Height / 2 + 330; // 0,0 좌표를 로그칸 바로 위로 맞추느라 조정.
         }
     }
 }

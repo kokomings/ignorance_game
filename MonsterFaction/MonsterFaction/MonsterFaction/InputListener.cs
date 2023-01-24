@@ -1,54 +1,69 @@
-﻿using MonsterFaction.GameWorld.WorldObject.Shape;
-using MonsterFaction.SingleUserControl;
+﻿using MonsterFaction.GameWorld.WorldObject;
+using MonsterFaction.GameWorld.WorldObject.DomainObject;
+using MonsterFaction.GameWorld.WorldObject.VectorUnit;
+using System;
 
 namespace MonsterFaction
 {
-    public class InputListener
+    public class InputListener : IUpdatable
     {
-        private static readonly InputListener inputListener = new();
-        private readonly PlayerController playerController = new();
+        private readonly HumanObjectManager humanObjectManager;
 
-        public static InputListener Input => inputListener;
+        private bool up; private Direction upDirection = new Direction(0, 1);
+        private bool down; private Direction downDirection = new Direction(0, -1);
+        private bool left; private Direction leftDirection = new Direction(-1, 0);
+        private bool right; private Direction rightDirection = new Direction(1, 0);
+        private bool acceleration;
 
-        public void SetPlayerMovement(IMovementForPlayer playerMovement)
-            => this.playerController.PlayerMovement = playerMovement;
-
+        public InputListener(HumanObjectManager humanObjectManager)
+        {
+            this.humanObjectManager = humanObjectManager;
+        }
         public void UpButton_Down()
         {
-            playerController.MoveToUp(true);
+            up = true;
         }
 
         public void UpButton_Up()
         {
-            playerController.MoveToUp(false);
+            up = false;
         }
 
         public void DownButton_Down()
         {
-            playerController.MoveToDown(true);
+            down = true;
         }
         public void DownButton_Up()
         {
-            playerController.MoveToDown(false);
+            down = false;
         }
 
         public void LeftButton_Down()
         {
-            playerController.MoveToLeft(true);
+            left = true;
         }
         public void LeftButton_Up()
         {
-            playerController.MoveToLeft(false);
+            left = false;
         }
 
         public void RightButton_Down()
         {
-            playerController.MoveToRight(true);
+            right = true;
         }
 
         public void RightButton_Up()
         {
-            playerController.MoveToRight(false);
+            right = false;
+        }
+        public void Acceleration_Down()
+        {
+            acceleration = true;
+        }
+
+        public void Acceleration_Up()
+        {
+            acceleration = false;
         }
 
         // R  or switch(A) or xbox(Y)
@@ -57,14 +72,9 @@ namespace MonsterFaction
         // Space or switch(X) or xbox(A)
         public void Space() { }
 
-        public void Acceleration_Down()
+        public void Attack_Down()
         {
-            playerController.Acceleration(true);
-        }
-
-        public void Acceleration_Up()
-        {
-            playerController.Acceleration(false);
+            // TODO 구조 개선하고 구현.
         }
 
         //  Backspace or switch(+)
@@ -78,5 +88,21 @@ namespace MonsterFaction
 
         // E or switch(ZR) or xbox(RT)
         public void TopRight() { }
+
+        public void Update()
+        {
+            Direction direction = new(0, 0);
+            if (left)
+                direction += leftDirection;
+            if (right)
+                direction += rightDirection;
+            if (up)
+                direction += upDirection;
+            if (down)
+                direction += downDirection;
+
+            double speed = acceleration ? 3 : 1;
+            humanObjectManager.Move(direction, speed);
+        }
     }
 }

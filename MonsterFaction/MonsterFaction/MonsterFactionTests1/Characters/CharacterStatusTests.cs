@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MonsterFaction.Characters.Tests
+namespace MonsterFaction.Characters.Ability.Tests
 {
     [TestClass()]
     public class CharacterStatusTests
@@ -13,8 +13,8 @@ namespace MonsterFaction.Characters.Tests
             var stat3 = new Stat { Attack = 7, Defense = 7 };
 
             var character = new CharacterStatus(stat1);
-            character.AddSkill(new StatSkill { Stat = stat2 });
-            character.AddSkill(new StatSkill { Stat = stat3 });
+            character.AddSkill(new StatAbility { Stat = stat2 });
+            character.AddSkill(new StatAbility { Stat = stat3 });
 
             Assert.AreEqual(
                 stat1 + stat2 + stat3,

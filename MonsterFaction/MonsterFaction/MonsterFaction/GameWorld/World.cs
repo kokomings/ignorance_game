@@ -20,6 +20,7 @@ namespace MonsterFaction.GameWorld
         private readonly List<IUpdatable> managers = new List<IUpdatable>();
         private readonly HumanObjectManager humanObjectManager = new();
         private readonly WildMonsterObjectManager wildMonsterObjectManager = new();
+        public readonly InputListener inputListener;
 
         public World()
         {
@@ -31,6 +32,8 @@ namespace MonsterFaction.GameWorld
 
             managers.Add(humanObjectManager);
             managers.Add(wildMonsterObjectManager);
+            inputListener = new InputListener(humanObjectManager);
+            managers.Add(inputListener);
         }
 
         public SimpleObject MakePlayer()
@@ -41,8 +44,8 @@ namespace MonsterFaction.GameWorld
                 new Center(200, 200)
             );
             drawables.Add(humanObject);
-            humanObjectManager.Add(humanObject);
-            EventBroker.PublishEvent(new CreateEvent(humanObject.ID, humanObject.Shape, humanObject.Movement.Center));
+            humanObjectManager.Assign(humanObject);
+            EventBroker.PublishEvent(new CreateEvent(humanObject.ID, new Area(humanObject.Shape, humanObject.Center)));
             return humanObject;
         }
 
