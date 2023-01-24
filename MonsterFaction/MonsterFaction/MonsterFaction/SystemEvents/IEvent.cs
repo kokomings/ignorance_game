@@ -12,14 +12,12 @@ namespace MonsterFaction.SystemEvents
     {
         public readonly EventType EventType { get; }
         public readonly int ObjectId { get; }
-        public readonly IShape Shape { get; }
-        public readonly Center Center { get; }
-        public CreateEvent(int objectId, IShape shape, Center center)
+        public readonly Area Area { get; }
+        public CreateEvent(int objectId, Area area)
         {
             EventType = EventType.OBJECT_CREATE;
             ObjectId = objectId;
-            Shape = shape;
-            Center = center;
+            Area = area;
         }
     }
     public readonly struct MoveEvent : IEvent
@@ -39,24 +37,22 @@ namespace MonsterFaction.SystemEvents
     {
         public readonly EventType EventType { get; }
         public readonly int ObjectId { get; }
-        public DeleteEvent(int ObjectId)
+        public DeleteEvent(int objectId)
         {
-            this.EventType = EventType.OBJECT_DELETE;
-            this.ObjectId = ObjectId;
+            EventType = EventType.OBJECT_DELETE;
+            ObjectId = objectId;
         }
     }
     public readonly struct AttackEvent : IEvent
     {
         public readonly EventType EventType { get; }
-        public readonly IShape Shape { get; }
-        public readonly Center Center { get; }
+        public readonly Area Area { get; }
         public readonly bool HumanTeam { get; }
-        public AttackEvent(IShape shape, Center center, bool humanTeam)
+        public AttackEvent(Area area, bool humanTeam)
         {
-            this.EventType = EventType.ATTACK;
-            this.Shape = shape;
-            this.Center = center;
-            this.HumanTeam = humanTeam;
+            EventType = EventType.ATTACK;
+            Area = area;
+            HumanTeam = humanTeam;
         }
     }
 }

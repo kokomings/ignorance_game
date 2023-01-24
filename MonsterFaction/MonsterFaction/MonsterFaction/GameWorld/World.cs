@@ -45,7 +45,7 @@ namespace MonsterFaction.GameWorld
             );
             drawables.Add(humanObject);
             humanObjectManager.Assign(humanObject);
-            EventBroker.PublishEvent(new CreateEvent(humanObject.ID, humanObject.Shape, humanObject.Center));
+            EventBroker.PublishEvent(new CreateEvent(humanObject.ID, new Area(humanObject.Shape, humanObject.Center)));
             return humanObject;
         }
 

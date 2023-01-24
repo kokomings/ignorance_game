@@ -6,75 +6,68 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
 {
     public static class CollisionChecker
     {
-        public static Boolean IsCollide(ShapeOnWorld target1, ShapeOnWorld target2)
+        public static Boolean IsCollide(Area area1, Area area2)
         {
-            return isCollide(target1.Shape, target1.Center, target2.Shape, target2.Center);
-        }
-
-        private static Boolean isCollide(IShape shape1, Center center1, IShape shape2, Center center2)
-        {
-            if (shape1 is CircleShape && shape2 is CircleShape)
+            if (area1.isCircle && area2.isCircle)
             {
-                return isCollide((CircleShape)shape1, center1, (CircleShape)shape2, center2);
+                return isCollide(area1.toCircle(), area2.toCircle());
             }
-            else if (shape1 is CircleShape && shape2 is SquareShape)
+            else if (area1.isCircle && area2.isSquare)
             {
-                return isCollide((CircleShape)shape1, center1, (SquareShape)shape2, center2);
+                return isCollide(area1.toCircle(), area2.toSquare());
             }
-            else if (shape1 is SquareShape && shape2 is CircleShape)
+            else if (area1.isSquare && area2.isCircle)
             {
-                return isCollide((CircleShape)shape2, center2, (SquareShape)shape1, center1);
+                return isCollide(area2.toCircle(), area1.toSquare());
             }
-            else if (shape1 is SquareShape && shape2 is SquareShape)
+            else if (area1.isSquare && area2.isSquare)
             {
-                return isCollide((SquareShape)shape1, center1, (SquareShape)shape2, center2);
+                return isCollide(area1.toSquare(), area2.toSquare());
             }
             throw new NotImplementedException("Not implemeted collision situation.");
         }
 
-        private static Boolean isCollide(CircleShape circleShape1, Center center1, CircleShape circleShape2, Center center2)
+        private static Boolean isCollide(CircleArea circleArea1, CircleArea circleArea2)
         {
-            double radiusSum = circleShape1.Radius + circleShape2.Radius;
-            double widthGap = center1.X - center2.X;
-            double heightGap = center1.Y - center2.Y;
+            double radiusSum = circleArea1.Radius + circleArea2.Radius;
+            double widthGap = circleArea1.X - circleArea2.X;
+            double heightGap = circleArea1.Y - circleArea2.Y;
 
             return widthGap * widthGap + heightGap * heightGap < radiusSum * radiusSum;
         }
 
-        private static Boolean isCollide(SquareShape squareShape1, Center center1, SquareShape squareShape2, Center center2)
+        private static Boolean isCollide(SquareArea squareArea1, SquareArea squareArea2)
         {
-            double widthSum = squareShape1.Width + squareShape2.Width;
-            double heightSum = squareShape1.Height + squareShape2.Height;
+            double widthSum = squareArea1.Width + squareArea2.Width;
+            double heightSum = squareArea1.Height + squareArea2.Height;
 
-            double centerWidthGap = Math.Abs(center1.X - center2.X);
-            double centerHeightGap = Math.Abs(center1.Y - center2.Y);
+            double centerWidthGap = Math.Abs(squareArea1.X - squareArea2.X);
+            double centerHeightGap = Math.Abs(squareArea1.Y - squareArea2.Y);
 
             return widthSum / 2 >= centerWidthGap && heightSum / 2 >= centerHeightGap;
         }
-        private static Boolean isCollide(CircleShape circleShape, Center circleCenter, SquareShape squareShape, Center squareCenter)
+        private static Boolean isCollide(CircleArea circleArea, SquareArea squareArea)
         {
-            var wideExtendedSquare = new SquareShape(squareShape.Width + circleShape.Radius * 2, squareShape.Height);
-            var verticalExtendedSquare = new SquareShape(squareShape.Width, squareShape.Height + circleShape.Radius * 2);
-            var topLeft = squareCenter + new Center(- squareShape.Width / 2, squareShape.Height / 2);
-            var topRight = squareCenter + new Center(squareShape.Width / 2, squareShape.Height / 2);
-            var bottomLeft = squareCenter + new Center(- squareShape.Width / 2, - squareShape.Height / 2);
-            var bottomRight = squareCenter + new Center(squareShape.Width / 2, - squareShape.Height / 2);
-            
-            var testCenter = squareCenter + new Center(- circleShape.Radius, circleShape.Height);
+            var wideExtendedSquare = new SquareShape(squareArea.Width + circleArea.Radius * 2, squareArea.Height);
+            var verticalExtendedSquare = new SquareShape(squareArea.Width, squareArea.Height + circleArea.Radius * 2);
+            var topLeft = squareArea.Center + new Center(-squareArea.Width / 2, squareArea.Height / 2);
+            var topRight = squareArea.Center + new Center(squareArea.Width / 2, squareArea.Height / 2);
+            var bottomLeft = squareArea.Center + new Center(-squareArea.Width / 2, -squareArea.Height / 2);
+            var bottomRight = squareArea.Center + new Center(squareArea.Width / 2, -squareArea.Height / 2);
 
-            return isCollide(wideExtendedSquare, squareCenter, circleCenter) ||
-                isCollide(verticalExtendedSquare, squareCenter, circleCenter) ||
-                isCollide(circleShape, circleCenter, topLeft) ||
-                isCollide(circleShape, circleCenter, topRight) ||
-                isCollide(circleShape, circleCenter, bottomLeft) ||
-                isCollide(circleShape, circleCenter, bottomRight);
+            return isCollide(wideExtendedSquare, squareArea.Center, circleArea.Center) ||
+                isCollide(verticalExtendedSquare, squareArea.Center, circleArea.Center) ||
+                isCollide(circleArea, topLeft) ||
+                isCollide(circleArea, topRight) ||
+                isCollide(circleArea, bottomLeft) ||
+                isCollide(circleArea, bottomRight);
         }
 
-        private static Boolean isCollide(CircleShape circleShape, Center circleCenter, Center dot)
+        private static Boolean isCollide(CircleArea circleArea, Center dot)
         {
-            double radius = circleShape.Radius;
-            double widthGap = circleCenter.X - dot.X;
-            double heightGap = circleCenter.Y - dot.Y;
+            double radius = circleArea.Radius;
+            double widthGap = circleArea.X - dot.X;
+            double heightGap = circleArea.Y - dot.Y;
 
             return widthGap * widthGap + heightGap * heightGap <= radius * radius;
         }

@@ -1,5 +1,6 @@
 ﻿using MonsterFaction.GameWorld.WorldObject;
 using MonsterFaction.GameWorld.WorldObject.Collision;
+using MonsterFaction.GameWorld.WorldObject.Shape;
 using MonsterFaction.SystemEvents;
 using System;
 
@@ -18,7 +19,7 @@ namespace MonsterFaction.Characters.Battle
 
         private void attackTarget(AttackEvent attackEvent)
         {
-            var objectIdsInRange = ObjectCollisionManager.GetCollidingObjectIds(new ShapeOnWorld(attackEvent.Shape, attackEvent.Center));
+            var objectIdsInRange = ObjectCollisionManager.GetCollidingObjectIds(attackEvent.Area);
             Logger.Log.Information(objectIdsInRange.ToString());
         }
     }
