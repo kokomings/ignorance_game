@@ -12,9 +12,10 @@ namespace MonsterFaction.GameWorld.WorldObject.DomainObject
             Human = human;
         }
 
-        public void Attack()
+        public Area AttackArea()
         {
-            // publish attack event?
+            Center attackCenter = this.Center + new Center(this.Direction.X * 100, this.Direction.Y * 100);
+            return new Area(new CircleShape(20), attackCenter);
         }
     }
 }
