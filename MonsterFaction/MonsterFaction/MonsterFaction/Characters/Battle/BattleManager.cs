@@ -29,7 +29,7 @@ namespace MonsterFaction.Characters.Battle
 
         private void attackTarget(AttackEvent attackEvent)
         {
-            var objectIdsInRange = ObjectCollisionManager.GetCollidingObjectIds(attackEvent.Area);
+            var objectIdsInRange = ObjectCollisionCalculator.GetCollidingObjectIds(attackEvent.Area);
             foreach (var i in objectIdsInRange) { Logger.Log.Information(i.ToString()); }
         }
 

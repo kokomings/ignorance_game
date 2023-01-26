@@ -21,7 +21,7 @@ namespace MonsterFaction.GameWorld.WorldObject.DomainObject
 
             // 테스트를 위해 충돌되면 못 가게 하고 있음.
             Center nextCenter = humanObject.Center + new Center(direction.X * speed, direction.Y * speed);
-            var blockingObjects = ObjectCollisionManager.GetCollidingObjectIds(
+            var blockingObjects = ObjectCollisionCalculator.GetCollidingObjectIds(
                 new Area(humanObject.Shape, nextCenter)
                 );
             if (blockingObjects.Count >= 2 || blockingObjects.Count == 1 && !blockingObjects.Contains(humanObject.ID))
