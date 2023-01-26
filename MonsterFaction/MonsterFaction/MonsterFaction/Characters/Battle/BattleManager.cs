@@ -3,8 +3,6 @@ using MonsterFaction.GameWorld.WorldObject.Collision;
 using MonsterFaction.GameWorld.WorldObject.Shape;
 using MonsterFaction.SystemEvents;
 using MonsterFaction.Util;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace MonsterFaction.Characters.Battle
