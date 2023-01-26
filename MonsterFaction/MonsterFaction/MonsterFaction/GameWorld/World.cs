@@ -53,7 +53,7 @@ namespace MonsterFaction.GameWorld
 
         public IEnumerable<IDrawable> GetDrawables()
         {
-            return drawables.Concat(humanObjectManager.GetDrawables());
+            return drawables.Concat(humanObjectManager.GetDrawables()).Concat(battleManager.GetDrawables());
         }
 
         public void Update()
