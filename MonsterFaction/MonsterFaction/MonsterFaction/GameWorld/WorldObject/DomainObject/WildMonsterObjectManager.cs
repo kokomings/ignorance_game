@@ -18,7 +18,7 @@ namespace MonsterFaction.GameWorld.WorldObject.DomainObject
             var monster = new WildMonsterObject(
                 factory.CreateMonster(name, level),
                 generateRandomShape(),
-                new Center(random.Next(100, 200), random.Next(100, 200))
+                new Center(random.Next(50, 150), random.Next(50, 150))
                 );
             EventBroker.PublishEvent(new CreateEvent(monster.ID, new Area(monster.Shape, monster.Center)));
             Add(monster);

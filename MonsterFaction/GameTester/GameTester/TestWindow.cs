@@ -15,8 +15,8 @@ namespace GameTester
         public TestWindow()
         {
             keyBindings = new KeyBindings(game.GetInputListener());
-            this.KeyDown += TestWindow_KeyDown;
-            this.KeyUp += TestWindow_KeyUp;
+            this.KeyDown += (object sender, KeyEventArgs e) => { keyBindings.TestWindow_KeyDown(e.KeyCode); };
+            this.KeyUp += (object sender, KeyEventArgs e) => { keyBindings.TestWindow_KeyUp(e.KeyCode); };
             this.KeyPreview = true;
             InitializeComponent();
         }
@@ -40,18 +40,6 @@ namespace GameTester
                 await Task.Delay(8);
             }
            
-        }
-
-        private void TestWindow_KeyDown(object sender, KeyEventArgs e)
-        {
-            
-            keyBindings.TestWindow_KeyDown(e.KeyCode);
-        }
-
-
-        private void TestWindow_KeyUp(object sender, KeyEventArgs e)
-        {
-            keyBindings.TestWindow_KeyUp(e.KeyCode);
         }
 
         private void TestWindow_Paint(object sender, PaintEventArgs e)

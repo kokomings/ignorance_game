@@ -2,10 +2,11 @@
 using MonsterFaction.GameWorld.WorldObject.VectorUnit;
 using MonsterFaction.GameWorld.WorldObject.Shape;
 using MonsterFaction.SystemEvents;
+using System.Collections.Generic;
 
 namespace MonsterFaction.GameWorld.WorldObject.DomainObject
 {
-    public class HumanObjectManager: IUpdatable // updatable 필요 없을 듯.
+    public class HumanObjectManager
     {
         private HumanObject humanObject;
 
@@ -26,17 +27,20 @@ namespace MonsterFaction.GameWorld.WorldObject.DomainObject
             if (blockingObjects.Count >= 2 || blockingObjects.Count == 1 && !blockingObjects.Contains(humanObject.ID))
                 return;
             humanObject.Center = nextCenter;
+            humanObject.Direction = direction;
             EventBroker.PublishEvent(new MoveEvent(humanObject.ID, humanObject.Center));
         }
 
         public void Attack()
         {
-            
+            EventBroker.PublishEvent(new AttackEvent(humanObject.AttackArea(), true));
         }
 
-        public void Update()
+        public IEnumerable<IDrawable> GetDrawables()
         {
-
+            var list = new List<HumanObject>();
+            list.Add(humanObject);
+            return list;
         }
     }
 }

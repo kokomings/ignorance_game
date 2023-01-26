@@ -7,5 +7,6 @@ namespace MonsterFaction.GameWorld.WorldObject
     {
         public IShape Shape { get; }
         public Center Center { get; }
+        public Direction Direction { get; }
     }
 }

@@ -74,7 +74,7 @@ namespace MonsterFaction
 
         public void Attack_Down()
         {
-            // TODO 구조 개선하고 구현.
+            humanObjectManager.Attack();
         }
 
         //  Backspace or switch(+)
