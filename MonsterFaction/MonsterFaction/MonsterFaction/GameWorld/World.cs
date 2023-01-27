@@ -27,11 +27,7 @@ namespace MonsterFaction.GameWorld
 
         public World()
         {
-            ObjectCollisionManager.Update(); // 최초 호출해서 Event 구독 활성화.
-            var monster1 = wildMonsterObjectManager.Create(MonsterName.GOBLIN, 1);
-            //var monster2 = wildMonsterObjectManager.Create(MonsterName.GOBLIN, 1);
-            drawables.Add(monster1);
-            //drawables.Add(monster2);
+            wildMonsterObjectManager.Create(MonsterName.GOBLIN, 1);
 
             managers.Add(wildMonsterObjectManager);
             inputListener = new InputListener(humanObjectManager);
@@ -47,18 +43,21 @@ namespace MonsterFaction.GameWorld
                 new Center(200, 200)
             );
             humanObjectManager.Assign(humanObject);
+            ObjectCollisionSimulator.CreateObject(humanObject.ID, new Area(humanObject.Shape, humanObject.Center));
             EventBroker.PublishEvent(new CreateEvent(humanObject.ID, new Area(humanObject.Shape, humanObject.Center)));
             return humanObject;
         }
 
         public IEnumerable<IDrawable> GetDrawables()
         {
-            return drawables.Concat(humanObjectManager.GetDrawables()).Concat(battleManager.GetDrawables());
+            return drawables
+                .Concat(humanObjectManager.GetDrawables())
+                .Concat(battleManager.GetDrawables())
+                .Concat(wildMonsterObjectManager.GetDrawables());
         }
 
         public void Update()
         {
-            ObjectCollisionManager.Update();
             foreach (var manager in managers)
             {
                 manager.Update();

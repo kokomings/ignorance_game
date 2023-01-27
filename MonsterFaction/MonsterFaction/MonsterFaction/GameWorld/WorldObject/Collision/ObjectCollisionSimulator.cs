@@ -1,24 +1,20 @@
-﻿using MonsterFaction.GameWorld.WorldObject.Shape;
+﻿using MonsterFaction.GameWorld.WorldObject.DomainObject;
+using MonsterFaction.GameWorld.WorldObject.Shape;
 using MonsterFaction.GameWorld.WorldObject.VectorUnit;
 using MonsterFaction.SystemEvents;
 using System;
 using System.Collections.Generic;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MonsterFaction.GameWorld.WorldObject.Collision
 {
     // 단순 격자 형태로 구현됨. 이후에 QuadTree 등 알고리즘 개선하자.
-    public static class ObjectCollisionManager
+    public static class ObjectCollisionSimulator
     {
-        private readonly static EventSubscriber<CreateEvent> createEvents = new(EventType.OBJECT_CREATE);
-        private readonly static EventSubscriber<MoveEvent> moveEvents = new(EventType.OBJECT_MOVE);
-        private readonly static EventSubscriber<DeleteEvent> deleteEvents = new(EventType.OBJECT_DELETE);
-
         private static HashSet<int>[,] positionToObjectIds = new HashSet<int>[1000, 1000];
         private static Dictionary<int, List<Tuple<int, int>>> objectIdToPositions = new();
-        private static Dictionary<int, Area> objectIdToShapeOnWorld = new();
+        private static Dictionary<int, Area> objectIdToArea = new();
 
-        static ObjectCollisionManager() { initialize(); }
+        static ObjectCollisionSimulator() { initialize(); }
 
         public static HashSet<int> GetCollidingObjectIds(Area target)
         {
@@ -34,7 +30,7 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
 
             foreach (var objectId in targetObjectIds)
             {
-                if (CollisionChecker.IsCollide(target, objectIdToShapeOnWorld[objectId]))
+                if (CollisionChecker.IsCollide(target, objectIdToArea[objectId]))
                 {
                     result.Add(objectId);
                 }
@@ -57,21 +53,39 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
             throw new NotImplementedException();
         }
 
-        public static void Update()
+        public static void CreateObject(int objectId, Area area)
         {
-            foreach (var createEvent in createEvents.FetchAll())
+            setObjectPosition(objectId, area);
+            objectIdToArea[objectId] = area;
+        }
+
+        public static void DeleteObject(int objectId)
+        {
+            foreach (var position in objectIdToPositions[objectId])
             {
-                setObjectPosition(createEvent.ObjectId, createEvent.Area);
-                objectIdToShapeOnWorld[createEvent.ObjectId] = createEvent.Area;
+                positionToObjectIds[position.Item1, position.Item2].Remove(objectId);
             }
-            foreach (var moveEvent in moveEvents.FetchAll())
+            objectIdToPositions[objectId].Clear();
+            objectIdToArea.Remove(objectId);
+        }
+
+        public static void MoveObject(int objectId, Center newCenter)
+        {
+            var shape = objectIdToArea[objectId].Shape;
+            DeleteObject(objectId);
+            CreateObject(objectId, new Area(shape, newCenter));
+        }
+
+        public static bool MoveObjectIfCan(int objectId, Center newCenter)
+        {
+            var desiredArea = new Area(objectIdToArea[objectId].Shape, newCenter);
+            var overlappingObjects = GetCollidingObjectIds(desiredArea);
+            if (overlappingObjects.Count == 0 || overlappingObjects.Count == 1 && overlappingObjects.Contains(objectId))
             {
-                moveObjectPosition(moveEvent.ObjectId);
+                MoveObject(objectId, newCenter);
+                return true;
             }
-            foreach (var deleteEvent in deleteEvents.FetchAll())
-            {
-                deleteObject(deleteEvent.ObjectId);
-            }
+            return false;
         }
 
         private static void setObjectPosition(int objectId, Area area)
@@ -121,25 +135,6 @@ namespace MonsterFaction.GameWorld.WorldObject.Collision
             if (x > 999)
                 return 999;
             return (int)x;
-        }
-
-        private static void moveObjectPosition(int objectId)
-        {
-            foreach (var position in objectIdToPositions[objectId])
-            {
-                positionToObjectIds[position.Item1, position.Item2].Remove(objectId);
-            }
-            objectIdToPositions[objectId].Clear();
-        }
-
-        private static void deleteObject(int objectId)
-        {
-            foreach (var position in objectIdToPositions[objectId])
-            {
-                positionToObjectIds[position.Item1, position.Item2].Remove(objectId);
-            }
-            objectIdToPositions[objectId].Clear();
-            objectIdToShapeOnWorld.Remove(objectId);
         }
 
         private static void initialize()

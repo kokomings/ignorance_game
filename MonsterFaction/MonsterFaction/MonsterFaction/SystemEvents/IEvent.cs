@@ -20,19 +20,6 @@ namespace MonsterFaction.SystemEvents
             Area = area;
         }
     }
-    public readonly struct MoveEvent : IEvent
-    {
-        public readonly EventType EventType { get; }
-        public readonly int ObjectId { get; }
-        public readonly Center NewPosition { get; }
-        public MoveEvent(int objectId, Center newPosition)
-        {
-            EventType = EventType.OBJECT_MOVE;
-            ObjectId = objectId;
-            NewPosition = newPosition;
-        }
-    }
-
     public readonly struct DeleteEvent : IEvent
     {
         public readonly EventType EventType { get; }
