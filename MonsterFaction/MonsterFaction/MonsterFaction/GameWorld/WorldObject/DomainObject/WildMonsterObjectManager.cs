@@ -1,4 +1,5 @@
 ﻿using MonsterFaction.Characters.Monster;
+using MonsterFaction.GameWorld.WorldObject.Collision;
 using MonsterFaction.GameWorld.WorldObject.Shape;
 using MonsterFaction.GameWorld.WorldObject.VectorUnit;
 using MonsterFaction.SystemEvents;
@@ -20,6 +21,7 @@ namespace MonsterFaction.GameWorld.WorldObject.DomainObject
                 generateRandomShape(),
                 new Center(random.Next(50, 150), random.Next(50, 150))
                 );
+            ObjectCollisionSimulator.CreateObject(monster.ID, new Area(monster.Shape, monster.Center));
             EventBroker.PublishEvent(new CreateEvent(monster.ID, new Area(monster.Shape, monster.Center)));
             Add(monster);
             return monster;
