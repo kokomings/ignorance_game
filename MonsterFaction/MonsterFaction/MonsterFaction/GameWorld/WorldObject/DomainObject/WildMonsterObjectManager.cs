@@ -40,6 +40,11 @@ namespace MonsterFaction.GameWorld.WorldObject.DomainObject
         {
         }
 
+        public IEnumerable<IDrawable> GetDrawables()
+        {
+            return objects.Values;
+        }
+
         private IShape generateRandomShape()
         {
             //if (random.Next(1,3) %2 == 0)

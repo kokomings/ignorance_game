@@ -27,10 +27,7 @@ namespace MonsterFaction.GameWorld
 
         public World()
         {
-            var monster1 = wildMonsterObjectManager.Create(MonsterName.GOBLIN, 1);
-            //var monster2 = wildMonsterObjectManager.Create(MonsterName.GOBLIN, 1);
-            drawables.Add(monster1);
-            //drawables.Add(monster2);
+            wildMonsterObjectManager.Create(MonsterName.GOBLIN, 1);
 
             managers.Add(wildMonsterObjectManager);
             inputListener = new InputListener(humanObjectManager);
@@ -53,7 +50,10 @@ namespace MonsterFaction.GameWorld
 
         public IEnumerable<IDrawable> GetDrawables()
         {
-            return drawables.Concat(humanObjectManager.GetDrawables()).Concat(battleManager.GetDrawables());
+            return drawables
+                .Concat(humanObjectManager.GetDrawables())
+                .Concat(battleManager.GetDrawables())
+                .Concat(wildMonsterObjectManager.GetDrawables());
         }
 
         public void Update()
